@@ -17,7 +17,7 @@ Create a rack-1.1 application
 Add this upstream seambooking repo
 
     cd sinatra
-    git remote add upstream -m master git://github.com/openshift/sinatra-example.gitd
+    git remote add upstream -m master git://github.com/openshift/sinatra-example.git
     git pull -s recursive -X theirs upstream master
     
 Then push the repo upstream
