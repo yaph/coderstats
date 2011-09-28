@@ -14,7 +14,7 @@ Create a rack-1.1 application
 
     rhc-create-app -a sinatra -t rack-1.1
 
-Add this upstream seambooking repo
+Add this upstream sinatra repo
 
     cd sinatra
     git remote add upstream -m master git://github.com/openshift/sinatra-example.git
