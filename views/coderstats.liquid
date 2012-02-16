@@ -1,0 +1,9 @@
+<ul id="coderstats">
+  {% for badge in stats.badges %}
+    <li>
+      <h2>{{ badge.name | escape }}</h2>
+      <p>{{ badge.description | escape }}</p>
+      <img src="{{ badge.badge | escape }}" alt="{{ badge.name | escape }}">
+    </li>
+  {% endfor %}
+</ul>

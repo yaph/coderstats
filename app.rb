@@ -1,24 +1,30 @@
-def cw_user(user)
-   url = "http://coderwall.com/#{user}.json"
-   resp = Net::HTTP.get_response(URI.parse(url))
-   result = JSON.parse(resp.body)
-
-   # if the hash has 'Error' as a key, we raise an error
-   if result.has_key? 'Error'
-      raise "web service error"
-   end
-   return resp.body
-end
-
 get '/' do
-    "the time where this server lives is #{Time.now}
-    <br /><br />check out your <a href=\"/agent\">user_agent</a>"
+  liquid :index
 end
 
-get '/test' do
-    cw_user('ramiro')
+
+get '/coderstats' do
+  stats = nil
+
+  begin
+    stats = cw_user(params[:cwuser])
+  rescue => e
+    liquid :'404'
+  end
+
+  liquid :coderstats, :locals => { :stats => stats }
 end
 
-get '/agent' do
-    "you're using #{request.user_agent}"
+
+def cw_user(user)
+  url = "http://coderwall.com/#{user}.json"
+  resp = Net::HTTP.get_response(URI.parse(url))
+
+  # if response body is empty
+  if resp.body.strip.length == 0
+    raise "web service error"
+  end
+  
+  result = JSON.parse(resp.body)
+  return result
 end
