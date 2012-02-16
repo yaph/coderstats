@@ -18,7 +18,6 @@ end
 
 get '/testdb' do
   require './db.rb'
-
 end
 
 
