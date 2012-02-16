@@ -11,6 +11,6 @@ puts dbhost, dbport, dbuser, dbpass
 
 
 db = Mongo::Connection.new(dbhost, dbport).db('coderstats')
-#auth = db.authenticate(dbuser, dbpass)
+auth = db.authenticate(dbuser, dbpass)
 
 db.collection_names.each { |name| puts name }
