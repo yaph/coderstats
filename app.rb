@@ -1,5 +1,3 @@
-require './db.rb'
-
 get '/' do
   liquid :index
 end
@@ -14,6 +12,12 @@ get '/coderstats' do
   rescue => e
     liquid :'404'
   end
+
+end
+
+
+get '/testdb' do
+  require './db.rb'
 
 end
 
