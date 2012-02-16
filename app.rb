@@ -8,11 +8,11 @@ get '/coderstats' do
 
   begin
     stats = cw_user(params[:cwuser])
+    liquid :coderstats, :locals => { :stats => stats }
   rescue => e
     liquid :'404'
   end
 
-  liquid :coderstats, :locals => { :stats => stats }
 end
 
 
