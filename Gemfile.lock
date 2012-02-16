@@ -1,8 +1,13 @@
 GEM
   remote: http://rubygems.org/
   specs:
+    bson (1.5.2)
+    bson_ext (1.5.2)
+      bson (= 1.5.2)
     json (1.6.5)
     liquid (2.3.0)
+    mongo (1.5.2)
+      bson (= 1.5.2)
     rack (1.1.0)
     sinatra (1.2.8)
       rack (~> 1.1)
@@ -13,7 +18,9 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  bson_ext
   json
   liquid
+  mongo
   rack (= 1.1)
   sinatra

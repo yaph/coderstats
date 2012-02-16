@@ -1,3 +1,5 @@
+require './db.rb'
+
 get '/' do
   liquid :index
 end

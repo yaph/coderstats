@@ -3,4 +3,5 @@ gem 'rack', '1.1'
 gem 'sinatra'
 gem 'json'
 gem 'liquid'
-
+gem 'bson_ext'
+gem 'mongo'
