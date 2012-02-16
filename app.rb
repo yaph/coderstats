@@ -18,6 +18,10 @@ end
 
 get '/testdb' do
   require './db.rb'
+  db = Database.new().connect()
+  names = ''
+  db.collection_names.each { |name| names += name }
+  return names
 end
 
 
