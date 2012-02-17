@@ -1,5 +1,15 @@
-<ul id="coderstats">
-  {% for badge in stats.badges %}
+<ul id="github_repos">
+  {% for repo in ghrepos %}
+    <li>
+      <h2>{{ repo.name | escape }}</h2>
+      <p>{{ repo.description | escape }}</p>
+      <a href="{{ repo.html_url | escape }}">Github Page</a>
+    </li>
+  {% endfor %}
+</ul>
+
+<ul id="coderwall_badges">
+  {% for badge in cwuser.badges %}
     <li>
       <h2>{{ badge.name | escape }}</h2>
       <p>{{ badge.description | escape }}</p>

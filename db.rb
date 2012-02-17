@@ -12,7 +12,6 @@ class Database
   def connect
     db = Mongo::Connection.new(@dbhost, @dbport).db('coderstats')
     auth = db.authenticate(@dbuser, @dbpass)
-
     return db
   end
 
