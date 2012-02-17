@@ -15,6 +15,11 @@ get '/coderstats' do
     cwuser = cw.get_user(params[:cwuser])
     gh = Github.new()
     ghrepos = gh.get_user_repos(params[:ghuser])
+
+#    db = Database.new().connect()
+#    ghcoll = db.collection('github')
+#    ghcoll.insert(ghrepos)
+
     liquid :coderstats, :locals => { :cwuser => cwuser, :ghrepos => ghrepos }
   rescue => e
     log = Logger.new(STDOUT)
@@ -27,7 +32,8 @@ end
 
 get '/testdb' do
   db = Database.new().connect()
-  names = ''
-  db.collection_names.each { |name| names += name }
-  return names
+  ghcoll = db.collection('github')
+  data = ''
+  ghcoll.find('language' => 'Python').each { |row| data += row.inspect }
+  return data
 end
