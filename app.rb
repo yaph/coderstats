@@ -22,11 +22,45 @@ module Coderstats
       def repos
         github_request('user/repos')
       end
+
+      def get_stats(repos)
+        stats = Hash.new(0)
+        stats[:languages] = Hash.new(0)
+        repos.each do |repo|
+          lang = repo['language']
+          if stats[:languages].has_key?(lang)
+            stats[:languages][lang] += 1
+          else
+            stats[:languages][lang] = 1
+          end
+        end
+        return stats
+      end
     end
 
 
     get '/' do
       liquid :index
+    end
+
+
+    get '/coderstats' do
+      stats = nil
+      begin
+        ghuser = params[:ghuser]
+        ghcoll = settings.db.collection('github')
+        ghdata = ghcoll.find_one({ :user => ghuser })
+        repos = ghdata['repos']
+        stats = get_stats(repos)
+#        out = ""
+#        stats[:languages].each { |l, c| out += l.to_s }
+#        return out
+        liquid :coderstats, :locals => { :ghrepos => repos, :languages => stats[:languages] }
+      rescue => e
+        log = Logger.new(STDOUT)
+        log.error(e)
+        liquid :'404'
+      end
     end
 
 
