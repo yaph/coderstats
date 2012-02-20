@@ -2,38 +2,44 @@ require 'logger'
 require './webservice.rb'
 require './db.rb'
 
-get '/' do
-  liquid :index
-end
+module Coderstats
+  class App < Sinatra::Base
+    enable :sessions
+
+    set :db, Database.new().connect()
+
+    set :ghsettings, settings.db.collection('settings').find_one()
+
+    set :github_options, {
+      :secret    => settings.ghsettings['gh_secret'],
+      :client_id => settings.ghsettings['gh_client_id']
+    }
+
+    register Sinatra::Auth::Github
 
 
-get '/coderstats' do
-  stats = nil
+    helpers do
+      def repos
+        github_request('user/repos')
+      end
+    end
 
-  begin
-    cw = Coderwall.new()
-    cwuser = cw.get_user(params[:cwuser])
-    gh = Github.new()
-    ghrepos = gh.get_user_repos(params[:ghuser])
 
-#    db = Database.new().connect()
-#    ghcoll = db.collection('github')
-#    ghcoll.insert(ghrepos)
+    get '/' do
+      liquid :index
+    end
 
-    liquid :coderstats, :locals => { :cwuser => cwuser, :ghrepos => ghrepos }
-  rescue => e
-    log = Logger.new(STDOUT)
-    log.error(e)
-    liquid :'404'
+
+    get '/login' do
+      authenticate!
+      "Hello There, #{github_user.name}!#{github_user.token}\n#{repos.inspect}"
+    end
+
+
+    get '/logout' do
+      logout!
+      redirect 'https://github.com'
+    end
+
   end
-
-end
-
-
-get '/testdb' do
-  db = Database.new().connect()
-  ghcoll = db.collection('github')
-  data = ''
-  ghcoll.find('language' => 'Python').each { |row| data += row.inspect }
-  return data
 end
