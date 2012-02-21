@@ -1,6 +1,6 @@
 # Coderstats
 
-http://coderstats-rg.rhcloud.com/
+http://coderstats.geeksta.net/
 
 ## TODOs
 

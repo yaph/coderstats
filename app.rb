@@ -41,12 +41,12 @@ module Coderstats
 
 
     not_found do
-      env['sinatra.error'].message
+      liquid :error, :locals => { :message => env['sinatra.error'].message }
     end
 
 
     error do
-      env['sinatra.error'].message
+      liquid :error, :locals => { :message => env['sinatra.error'].message }
     end
 
 
@@ -69,7 +69,7 @@ module Coderstats
         now = Time.now.utc
 
         # check whether data exists or is outdated, i.e. older than a week = 604800 seconds
-        if ghdata.nil? || now - ghdata['updated'] > 1
+        if ghdata.nil? || now - ghdata['updated'] > 604800
           gh = Github.new()
 
           ghuser = gh.get_user(ghlogin)
@@ -99,7 +99,7 @@ module Coderstats
 
         repos = ghdata['repos']
         stats = get_stats(repos)
-        liquid :coderstats, :locals => {
+        liquid :coder, :locals => {
           :ghrepos => repos,
           :languages => stats[:languages],
           :total =>  stats[:total]
