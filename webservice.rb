@@ -35,8 +35,19 @@ end
 
 class Github < WebService
 
-  def get_user_repos(name)
-    url = "https://api.github.com/users/#{name}/repos"
+  @repos = []
+
+
+  def get_user(name)
+    url = "https://api.github.com/users/#{name}"
+    resp = self.request(url)
+    return JSON.parse(resp.body)
+  end
+
+
+  def get_user_repos(name, page = 1)
+    # FIXME iterate through pages
+    url = "https://api.github.com/users/#{name}/repos?per_page=100&page=#{page}"
     resp = self.request(url)
     return JSON.parse(resp.body)
   end
