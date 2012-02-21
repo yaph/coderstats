@@ -17,9 +17,6 @@
           {% if user.location %}
             <li class="location">{{ user.location|escape }}</li>
           {% endif %}
-          {% if user.hireable %}
-            <li>For hire</li>
-          {% endif %}
           {% if user.blog %}
             <li><a href="{{ user.blog|escape }}">Blog</a></li>
           {% endif %}
@@ -34,9 +31,10 @@
         {% endif %}
         <table class="table table-bordered">
         <tbody>
-          <tr><td>Number of languages</td><td>{{ languages.size }}</td></tr>
           <tr><td>Number of public repos</td><td>{{ user.public_repos|escape }}</td></tr>
           <tr><td>Number of public gists</td><td>{{ user.public_gists|escape }}</td></tr>
+          <tr><td>Number of repos with code</td><td>{{ stats.all.total }}</td></tr>
+          <tr><td>Number of languages across repos</td><td>{{ stats.all.languages.size }}</td></tr>
           <tr><td>Followers</td><td>{{ user.followers|escape }}</td></tr>
           <tr><td>Following</td><td>{{ user.following|escape }}</td></tr>
         </tbody>
@@ -61,19 +59,41 @@
 
   <div class="span9">
     <header><h2>Programming Language Statistics</h2></header>
-    <pre>
-    {{ total }}
 
-    {% for l in languages %}
-    {{ l[0] }}: #{{l[1] }}
+    <ul class="nav nav-tabs">
+      <li class="active"><a href="#all" data-toggle="tab">All</a></li>
+      <li><a href="#owned" data-toggle="tab">Owned</a></li>
+      <li><a href="#forked" data-toggle="tab">Forked</a></li>
+    </ul>
+
+    <div class="tab-content">
+    {% for idx in stats %}
+    <div class="tab-pane{% if 'all' == idx[0] %} active{% endif %}" id="{{ idx[0] }}">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Language</th>
+          <th>Count</th>
+          <th>Repositories</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for lang in idx[1].languages %}
+          <tr>
+            <td>{{ lang[0] }}</td>
+            <td>{{ lang[1].size }}</td>
+            <td>
+              {% for r in lang[1] %}
+                <a href="{{ r.html_url|escape }}">{{ r.name|escape }}</a>{% if false == forloop.last %} - {% endif %}
+              {% endfor %}
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    </div>
     {% endfor %}
-    </pre>
-        <ul id="github_repos">
-          {% for repo in ghrepos %}
-            <li><a href="{{ repo.html_url|escape }}" title="{{ repo.description|escape }}">{{ repo.name|escape }}</a></li>
-          {% endfor %}
-        </ul>
+    </div>
+
   </div>
 </div>
-
-

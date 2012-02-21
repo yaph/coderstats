@@ -1,6 +1,7 @@
 require 'logger'
 require './webservice.rb'
 require './db.rb'
+require './stats.rb'
 
 module Coderstats
   class App < Sinatra::Base
@@ -19,25 +20,6 @@ module Coderstats
 
 
     helpers do
-      def repos
-        github_request('user/repos')
-      end
-
-      def get_stats(repos)
-        # TODO evaluate size, fork, forks, owner, watchers, has_issues, open_issues
-        stats = { :languages => {}, :total => 0 }
-        repos.each do |repo|
-          stats[:total] += 1
-          lang = repo['language']
-          if stats[:languages].has_key?(lang)
-            stats[:languages][lang] += 1
-          else
-            stats[:languages][lang] = 1
-          end
-        end
-        return stats
-      end
-
       def set_error
         liquid :error, :locals => { :message => env['sinatra.error'].message, :title => 'Error' }
       end
@@ -104,10 +86,10 @@ module Coderstats
         end
 
         repos = ghdata['repos']
-        stats = get_stats(repos)
+
         liquid :coder, :locals => {
           :ghrepos => repos,
-          :languages => stats[:languages],
+          :stats => Stats.new.get(repos),
           :user => ghdata['user'],
           :title => 'Code statistics for Github user %s' % ghlogin
         }
