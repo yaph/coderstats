@@ -56,14 +56,20 @@ module Coderstats
 
 
     get '/coderstats' do
+      redirect '/coder/%s' % params[:ghuser]
+    end
+
+
+    get '/coder/:ghuser' do
       stats = nil
       begin
         ghlogin = params[:ghuser]
         ghcoll = settings.db.collection('github')
         ghdata = ghcoll.find_one({ :login => ghlogin })
+        now = Time.now.utc
 
         # check whether data exists or is outdated, i.e. older than a week = 604800 seconds
-        if ghdata.nil? || Time.now.utc - ghdata['updated'] > 604800
+        if ghdata.nil? || now - ghdata['updated'] > 1
           gh = Github.new()
 
           ghuser = gh.get_user(ghlogin)
@@ -76,12 +82,15 @@ module Coderstats
             raise "no user repos: %s" % ghlogin
           end
 
-          doc = { :login => ghlogin, :user => ghuser, :repos => ghrepos, :updated => Time.now.utc }
+          doc = { :login => ghlogin, :user => ghuser, :repos => ghrepos, :updated => now }
 
           if ghdata && ghdata['_id']
             oid = ghdata['_id']
+            doc[:created] = ghdata['created']
             ghcoll.update({'_id' => oid}, doc)
           else
+            # no user data exists so far
+            doc[:created] = now
             oid = ghcoll.insert(doc)
           end
 
