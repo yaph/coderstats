@@ -37,21 +37,27 @@ module Coderstats
         end
         return stats
       end
+
+      def set_error
+        liquid :error, :locals => { :message => env['sinatra.error'].message, :title => 'Error' }
+      end
     end
 
 
     not_found do
-      liquid :error, :locals => { :message => env['sinatra.error'].message }
+      set_error
     end
 
 
     error do
-      liquid :error, :locals => { :message => env['sinatra.error'].message }
+      set_error
     end
 
 
     get '/' do
-      liquid :index
+      liquid :index, :locals => {
+        :title => 'Coderstats - Get statistics for your Github code'
+      }
     end
 
 
@@ -102,7 +108,8 @@ module Coderstats
         liquid :coder, :locals => {
           :ghrepos => repos,
           :languages => stats[:languages],
-          :total =>  stats[:total]
+          :user => ghdata['user'],
+          :title => 'Code statistics for Github user %s' % ghlogin
         }
       rescue => e
         log = Logger.new(STDOUT)

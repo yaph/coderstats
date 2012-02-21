@@ -1,0 +1,14 @@
+#userform {
+text-align:center;
+}
+#userform form {
+margin:2em 0;
+}
+#userform input {
+font-size:2.5em;
+height:2em;
+}
+#userform .username {
+width:35%;
+}
+.vcard li {list-style:none;}

@@ -1,28 +1,79 @@
-<pre>
-{{ total }}
+<div class="row">
+  <div class="span3">
+    <header><h2>User Summary</h2></header>
+    <div class="row">
+      <div class="span1">
+        <img class="well" src="{{ user.avatar_url|escape }}" alt="{{ user.login|escape }}">
+      </div>
+      <div class="span2">
+        <ul class="vcard">
+          <li><a href="{{ user.html_url|escape }}" class="nickname">{{ user.login|escape }}</a></li>
+          {% if user.name %}
+            <li class="fn">{{ user.name|escape }}</li>
+          {% endif %}
+          {% if user.company %}
+            <li class="org">{{ user.company|escape }}</li>
+          {% endif %}
+          {% if user.location %}
+            <li class="location">{{ user.location|escape }}</li>
+          {% endif %}
+          {% if user.hireable %}
+            <li>For hire</li>
+          {% endif %}
+          {% if user.blog %}
+            <li><a href="{{ user.blog|escape }}">Blog</a></li>
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+    <div class="row">
+      <div class="span3">
+        <p>GitHubber since: {{ user.created_at| date: "%h %Y" }}</p>
+        {% if user.bio %}
+          <blockquote><p>{{ user.bio|escape}}</p></blockquote>
+        {% endif %}
+        <table class="table table-bordered">
+        <tbody>
+          <tr><td>Number of languages</td><td>{{ languages.size }}</td></tr>
+          <tr><td>Number of public repos</td><td>{{ user.public_repos|escape }}</td></tr>
+          <tr><td>Number of public gists</td><td>{{ user.public_gists|escape }}</td></tr>
+          <tr><td>Followers</td><td>{{ user.followers|escape }}</td></tr>
+          <tr><td>Following</td><td>{{ user.following|escape }}</td></tr>
+        </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="row">
+      <div class="span3">
+        <header><h2>Share Your Stats</h2></header>
+            <div class="addthis_toolbox addthis_default_style addthis_32x32_style">
+            <a class="addthis_button_preferred_1"></a>
+            <a class="addthis_button_preferred_2"></a>
+            <a class="addthis_button_preferred_3"></a>
+            <a class="addthis_button_preferred_4"></a>
+            <a class="addthis_button_compact"></a>
+            <a class="addthis_counter addthis_bubble_style"></a>
+            </div>
+            <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid=ra-4ed01f714e438a38"></script>
+      </div>
+    </div>
+  </div>
 
-{% for l in languages %}
-{{ l[0] }}: #{{l[1] }}
-{% endfor %}
-</pre>
+  <div class="span9">
+    <header><h2>Programming Language Statistics</h2></header>
+    <pre>
+    {{ total }}
+
+    {% for l in languages %}
+    {{ l[0] }}: #{{l[1] }}
+    {% endfor %}
+    </pre>
+        <ul id="github_repos">
+          {% for repo in ghrepos %}
+            <li><a href="{{ repo.html_url|escape }}" title="{{ repo.description|escape }}">{{ repo.name|escape }}</a></li>
+          {% endfor %}
+        </ul>
+  </div>
+</div>
 
 
-<ul id="github_repos">
-  {% for repo in ghrepos %}
-    <li>
-      <h2>{{ repo.name | escape }}</h2>
-      <p>{{ repo.description | escape }}</p>
-      <a href="{{ repo.html_url | escape }}">Github Page</a>
-    </li>
-  {% endfor %}
-</ul>
-
-<ul id="coderwall_badges">
-  {% for badge in cwuser.badges %}
-    <li>
-      <h2>{{ badge.name | escape }}</h2>
-      <p>{{ badge.description | escape }}</p>
-      <img src="{{ badge.badge | escape }}" alt="{{ badge.name | escape }}">
-    </li>
-  {% endfor %}
-</ul>
