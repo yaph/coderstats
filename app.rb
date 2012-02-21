@@ -45,6 +45,11 @@ module Coderstats
     end
 
 
+    error do
+      env['sinatra.error'].message
+    end
+
+
     get '/' do
       liquid :index
     end
@@ -53,21 +58,25 @@ module Coderstats
     get '/coderstats' do
       stats = nil
       begin
-        ghuser = params[:ghuser]
+        ghlogin = params[:ghuser]
         ghcoll = settings.db.collection('github')
-        ghdata = ghcoll.find_one({ :user => ghuser })
+        ghdata = ghcoll.find_one({ :login => ghlogin })
 
         # check whether data exists or is outdated, i.e. older than a week = 604800 seconds
         if ghdata.nil? || Time.now.utc - ghdata['updated'] > 604800
           gh = Github.new()
-          ghuser = params[:ghuser]
-          ghrepos = gh.get_user_repos(ghuser)
 
-          if ghrepos.empty?
-            raise "no data error: %s" % ghuser
+          ghuser = gh.get_user(ghlogin)
+          if ghuser.nil?
+            raise "no user data: %s" % ghlogin
           end
 
-          doc = { :user => ghuser, :repos => ghrepos, :updated => Time.now.utc }
+          ghrepos = gh.get_user_repos(ghuser)
+          if ghrepos.empty?
+            raise "no user repos: %s" % ghlogin
+          end
+
+          doc = { :login => ghlogin, :user => ghuser, :repos => ghrepos, :updated => Time.now.utc }
 
           if ghdata && ghdata['_id']
             oid = ghdata['_id']
@@ -88,8 +97,8 @@ module Coderstats
         }
       rescue => e
         log = Logger.new(STDOUT)
-        log.error(e)
-        raise Sinatra::NotFound, 'No data for user %s' % ghuser
+        log.error(e.message)
+        raise Sinatra::NotFound, 'No data for user %s' % ghlogin
       end
     end
 
