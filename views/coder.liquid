@@ -60,18 +60,19 @@
   <div class="span9">
     <header><h2>Programming Language Statistics</h2></header>
 
-    <ul class="nav nav-tabs">
-      <li class="active"><a href="#all" data-toggle="tab">All</a></li>
-      <li><a href="#owned" data-toggle="tab">Owned</a></li>
-      <li><a href="#forked" data-toggle="tab">Forked</a></li>
+    <ul class="nav nav-tabs" id="languagetablinks">
+      <li class="active"><a id="linkall" href="#all" data-toggle="tab">All</a></li>
+      <li><a id="linkowned" href="#owned" data-toggle="tab">Owned</a></li>
+      <li><a id="linkforked" href="#forked" data-toggle="tab">Forked</a></li>
     </ul>
 
-    <div class="tab-content">
+    <div class="tab-content" id="languagetabs">
     {% for idx in stats %}
     <div class="tab-pane{% if 'all' == idx[0] %} active{% endif %}" id="{{ idx[0] }}">
     <table class="table table-bordered">
       <thead>
         <tr>
+          <th>#</th>
           <th>Language</th>
           <th>Count</th>
           <th>Repositories</th>
@@ -80,6 +81,7 @@
       <tbody>
         {% for lang in idx[1].languages %}
           <tr>
+            <td>{{ forloop.index }}</td>
             <td>{{ lang[0] }}</td>
             <td>{{ lang[1].size }}</td>
             <td>
@@ -94,6 +96,8 @@
     </div>
     {% endfor %}
     </div>
+
+    <div class="well"><div id="infovis" class="chart"></div></div>
 
   </div>
 </div>
