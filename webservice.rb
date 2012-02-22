@@ -35,8 +35,6 @@ end
 
 class Github < WebService
 
-  @repos = []
-
   def get_data(url)
     resp = self.request(url)
     data = JSON.parse(resp.body)
