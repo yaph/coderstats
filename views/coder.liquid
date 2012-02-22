@@ -86,7 +86,7 @@
             <td>{{ lang[1].size }}</td>
             <td>
               {% for r in lang[1] %}
-                <a href="{{ r.html_url|escape }}">{{ r.name|escape }}</a>{% if false == forloop.last %} - {% endif %}
+                <a title="Size: {{ r.size|escape }}; Watchers: {{ r.watchers|escape }}; Forks: {{ r.forks|escape }}; Open issues: {{ r.open_issues|escape }}" href="{{ r.html_url|escape }}">{{ r.name|escape }}</a>{% if false == forloop.last %} - {% endif %}
               {% endfor %}
             </td>
           </tr>
