@@ -4,4 +4,5 @@ http://coderstats.geeksta.net/
 
 ## TODOs
 
-* opt-out feature, don't show data if user opted out
+* Fix Github oauth login
+* opt-out feature for authenticated users, don't show data if user opted out
