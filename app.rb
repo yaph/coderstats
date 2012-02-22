@@ -37,9 +37,12 @@ module Coderstats
 
 
     get '/' do
-      liquid :index, :locals => {
-        :title => 'Coderstats - Get statistics for your Github code'
-      }
+      liquid :index, :locals => {:title => 'Coderstats - Get statistics for your Github code'}
+    end
+
+
+    get '/about' do
+      liquid :about, :locals => {:title => 'About Coderstats'}
     end
 
 
