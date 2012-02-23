@@ -66,6 +66,8 @@
       <li><a id="linkforked" href="#forked" data-toggle="tab">Forked</a></li>
     </ul>
 
+    <div class="well"><div id="infovis" class="chart"></div></div>
+
     <div class="tab-content" id="languagetabs">
     {% for idx in stats %}
     <div class="tab-pane{% if 'all' == idx[0] %} active{% endif %}" id="{{ idx[0] }}">
@@ -96,8 +98,6 @@
     </div>
     {% endfor %}
     </div>
-
-    <div class="well"><div id="infovis" class="chart"></div></div>
 
   </div>
 </div>
