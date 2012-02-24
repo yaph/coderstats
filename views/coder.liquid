@@ -7,7 +7,7 @@
       </div>
       <div class="span2">
         <ul class="vcard">
-          <li><a href="{{ user.html_url|escape }}" class="nickname">{{ user.login|escape }}</a></li>
+          <li><a href="{{ user.html_url|escape }}" id="ghlogin" class="nickname">{{ user.login|escape }}</a></li>
           {% if user.name %}
             <li class="fn">{{ user.name|escape }}</li>
           {% endif %}
