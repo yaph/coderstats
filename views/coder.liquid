@@ -26,9 +26,6 @@
     <div class="row">
       <div class="span3">
         <p>GitHubber since: {{ user.created_at| date: "%h %Y" }}</p>
-        {% if user.bio %}
-          <blockquote><p>{{ user.bio|escape}}</p></blockquote>
-        {% endif %}
         <table class="table table-bordered">
         <tbody>
           <tr><td>Number of public repos</td><td>{{ user.public_repos|escape }}</td></tr>

@@ -7,3 +7,14 @@
     </form>
   </div>
 </div></div>
+
+<div class="row">
+  <header class="span12">
+    <h2>Latest coder statistics</h2>
+  </header>
+  {% for u in latest %}
+  <div class="span1">
+  <a href="{{u.user.html_url|escape}}"><img src="{{u.user.avatar_url|escape}}" alt="{{u.login|escape}}"></a>
+  </div>
+  {% endfor %}
+</div>

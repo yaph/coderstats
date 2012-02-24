@@ -37,7 +37,9 @@ module Coderstats
 
 
     get '/' do
-      liquid :index, :locals => {:title => 'Coderstats - Get statistics for your Github code'}
+      ghcoll = settings.db.collection('github')
+      ghdata = ghcoll.find({}, :sort => ['updated', -1], :limit => 12)
+      liquid :index, :locals => {:latest => ghdata.to_a, :title => 'Coderstats - Get statistics for your Github code'}
     end
 
 
@@ -114,6 +116,16 @@ module Coderstats
       logout!
       redirect 'https://github.com'
     end
+
+
+    # aggregations
+
+    # 10 latest updated requests
+    # db.github.find({}, {"login":1, "updated":1}).sort({"updated":-1}).limit(10)
+#    get '/latest' do
+#      ghcoll = settings.db.collection('github')
+#      ghdata = ghcoll.find({}, :sort => ['updated', -1])
+#    end
 
   end
 end
