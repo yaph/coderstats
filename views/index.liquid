@@ -14,7 +14,7 @@
   </header>
   {% for u in latest %}
   <div class="span1">
-  <a href="{{u.user.html_url|escape}}"><img src="{{u.user.avatar_url|escape}}" alt="{{u.login|escape}}"></a>
+  <a href="/coder/{{u.login|escape}}"><img src="{{u.user.avatar_url|escape}}" alt="{{u.login|escape}}"></a>
   </div>
   {% endfor %}
 </div>
