@@ -1,3 +1,14 @@
+/* bootstrap overrides */
+.navbar-inner {
+-webkit-border-radius:0;-moz-border-radius:0;border-radius:0;
+}
+.navbar .brand {
+font-size:32px;
+background: url('../img/logo_50x50.png') no-repeat top left;
+padding:10px 0 10px 55px;
+margin-left:0;
+}
+
 #userform {
 text-align:center;
 }
