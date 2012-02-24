@@ -1,6 +1,8 @@
 require 'logger'
 require './webservice.rb'
 require './db.rb'
+require './user.rb'
+require './repo.rb'
 require './stats.rb'
 
 module Coderstats
