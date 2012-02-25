@@ -22,9 +22,32 @@ module Coderstats
 
 
     helpers do
+
       def set_error
         liquid :error, :locals => { :message => env['sinatra.error'].message, :title => 'Error' }
       end
+
+
+      def get_set_user(ghlogin)
+
+        # 1st try to load user from users collection
+        user = User.new(settings.db)
+        dbuser = user.get(ghlogin)
+        if dbuser
+          return dbuser
+        end
+
+        # load from web service
+        gh = Github.new()
+        ghuser = gh.get_user(ghlogin)
+        if ghuser.nil?
+          raise "no user data: %s" % ghlogin
+        end
+
+        # create user in users collection
+        return user.create(ghuser)
+      end
+
     end
 
 
@@ -59,45 +82,17 @@ module Coderstats
       stats = nil
       begin
         ghlogin = params[:ghuser]
-        ghcoll = settings.db.collection('github')
-        ghdata = ghcoll.find_one({ :login => ghlogin })
-        now = Time.now.utc
+        user = get_set_user(ghlogin)
 
-        # check whether data exists or is outdated, i.e. older than a week = 604800 seconds
-        if ghdata.nil? || now - ghdata['updated'] > 604800
-          gh = Github.new()
-
-          ghuser = gh.get_user(ghlogin)
-          if ghuser.nil?
-            raise "no user data: %s" % ghlogin
-          end
-
-          ghrepos = gh.get_user_repos(ghuser)
-          if ghrepos.empty?
-            raise "no user repos: %s" % ghlogin
-          end
-
-          doc = { :login => ghlogin, :user => ghuser, :repos => ghrepos, :updated => now }
-
-          if ghdata && ghdata['_id']
-            oid = ghdata['_id']
-            doc[:created] = ghdata['created']
-            ghcoll.update({'_id' => oid}, doc)
-          else
-            # no user data exists so far
-            doc[:created] = now
-            oid = ghcoll.insert(doc)
-          end
-
-          ghdata = ghcoll.find_one({ :_id => oid })
-        end
-
-        repos = ghdata['repos']
+#        ghrepos = gh.get_user_repos(ghuser)
+#        if ghrepos.empty?
+#          raise "no user repos: %s" % ghlogin
+#        end
 
         liquid :coder, :locals => {
-          :ghrepos => repos,
-          :stats => Stats.new.get(repos),
-          :user => ghdata['user'],
+#          :ghrepos => repos,
+#          :stats => Stats.new.get(repos),
+          :user => user,
           :title => 'Code statistics for Github user %s' % ghlogin
         }
       rescue => e

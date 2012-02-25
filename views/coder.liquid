@@ -17,23 +17,23 @@
           {% if user.location %}
             <li class="location">{{ user.location|escape }}</li>
           {% endif %}
-          {% if user.blog %}
-            <li><a href="{{ user.blog|escape }}">Blog</a></li>
+          {% if user.homepage %}
+            <li><a href="{{ user.homepage|escape }}">Homepage</a></li>
           {% endif %}
         </ul>
       </div>
     </div>
     <div class="row">
       <div class="span3">
-        <p>GitHubber since: {{ user.created_at| date: "%h %Y" }}</p>
+        <p>GitHubber since: {{ user.gh_created_at| date: "%h %Y" }}</p>
         <table class="table table-bordered">
         <tbody>
-          <tr><td>Number of public repos</td><td>{{ user.public_repos|escape }}</td></tr>
-          <tr><td>Number of public gists</td><td>{{ user.public_gists|escape }}</td></tr>
+          <tr><td>Number of public repos</td><td>{{ user.gh_public_repos|escape }}</td></tr>
+          <tr><td>Number of public gists</td><td>{{ user.gh_public_gists|escape }}</td></tr>
           <tr><td>Number of repos with code</td><td>{{ stats.all.total }}</td></tr>
           <tr><td>Number of languages across repos</td><td>{{ stats.all.languages.size }}</td></tr>
-          <tr><td>Followers</td><td>{{ user.followers|escape }}</td></tr>
-          <tr><td>Following</td><td>{{ user.following|escape }}</td></tr>
+          <tr><td>Followers</td><td>{{ user.gh_followers|escape }}</td></tr>
+          <tr><td>Following</td><td>{{ user.gh_following|escape }}</td></tr>
         </tbody>
         </table>
       </div>
