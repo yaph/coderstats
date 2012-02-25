@@ -3,11 +3,11 @@
     <header><h2>User Summary</h2></header>
     <div class="row">
       <div class="span1">
-        <img class="well" src="{{ user.avatar_url|escape }}" alt="{{ user.login|escape }}">
+        <img class="well" src="{{ user.avatar_url|escape }}" alt="{{ user.gh_login|escape }}">
       </div>
       <div class="span2">
         <ul class="vcard">
-          <li><a href="{{ user.html_url|escape }}" id="ghlogin" class="nickname">{{ user.login|escape }}</a></li>
+          <li><a href="{{ user.gh_html_url|escape }}" id="gh_login" class="nickname">{{ user.gh_login|escape }}</a></li>
           {% if user.name %}
             <li class="fn">{{ user.name|escape }}</li>
           {% endif %}

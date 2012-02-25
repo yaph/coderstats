@@ -24,28 +24,49 @@ module Coderstats
     helpers do
 
       def set_error
-        liquid :error, :locals => { :message => env['sinatra.error'].message, :title => 'Error' }
+        liquid :error, :locals => {
+          :message => env['sinatra.error'].message, :title => 'Error'
+        }
       end
 
 
-      def get_set_user(ghlogin)
-
+      def get_set_user(gh_login)
         # 1st try to load user from users collection
         user = User.new(settings.db)
-        dbuser = user.get(ghlogin)
+        dbuser = user.get(gh_login)
         if dbuser
           return dbuser
         end
 
         # load from web service
         gh = Github.new()
-        ghuser = gh.get_user(ghlogin)
+        ghuser = gh.get_user(gh_login)
         if ghuser.nil?
-          raise "no user data: %s" % ghlogin
+          raise "no user data: %s" % gh_login
         end
 
         # create user in users collection
         return user.create(ghuser)
+      end
+
+
+      def get_set_repos(user)
+        repo = Repo.new(settings.db)
+        user_repos = repo.get_user_repos(user)
+        if !user_repos.empty?
+          return user_repos
+        end
+
+        gh = Github.new()
+        ghrepos = gh.get_user_repos(user)
+        if ghrepos.empty?
+          raise "no user repos: %s" % user['gh_login']
+        end
+
+        # create user repos and return array
+        dbrepos = []
+        ghrepos.each { |r| dbrepos.push repo.create_user_repo(user, r) }
+        return dbrepos
       end
 
     end
@@ -64,7 +85,10 @@ module Coderstats
     get '/' do
       ghcoll = settings.db.collection('github')
       ghdata = ghcoll.find({}, :sort => ['updated', -1], :limit => 12)
-      liquid :index, :locals => {:latest => ghdata.to_a, :title => 'Coderstats - Get statistics for your Github code'}
+      liquid :index, :locals => {
+        :latest => ghdata.to_a,
+        :title => 'Coderstats - Get statistics for your Github code'
+      }
     end
 
 
@@ -81,24 +105,17 @@ module Coderstats
     get '/coder/:ghuser' do
       stats = nil
       begin
-        ghlogin = params[:ghuser]
-        user = get_set_user(ghlogin)
-
-#        ghrepos = gh.get_user_repos(ghuser)
-#        if ghrepos.empty?
-#          raise "no user repos: %s" % ghlogin
-#        end
-
+        gh_login = params[:ghuser]
+        user = get_set_user(gh_login)
         liquid :coder, :locals => {
-#          :ghrepos => repos,
-#          :stats => Stats.new.get(repos),
           :user => user,
-          :title => 'Code statistics for Github user %s' % ghlogin
+          :stats => Stats.new.get(get_set_repos(user)),
+          :title => 'Code statistics for Github user %s' % gh_login
         }
       rescue => e
         log = Logger.new(STDOUT)
         log.error(e.message)
-        raise Sinatra::NotFound, 'No data for user %s' % ghlogin
+        raise Sinatra::NotFound, 'No data for user %s' % gh_login
       end
     end
 
@@ -113,16 +130,6 @@ module Coderstats
       logout!
       redirect 'https://github.com'
     end
-
-
-    # aggregations
-
-    # 10 latest updated requests
-    # db.github.find({}, {"login":1, "updated":1}).sort({"updated":-1}).limit(10)
-#    get '/latest' do
-#      ghcoll = settings.db.collection('github')
-#      ghdata = ghcoll.find({}, :sort => ['updated', -1])
-#    end
 
   end
 end

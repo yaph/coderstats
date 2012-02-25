@@ -30,8 +30,8 @@ class User
   end
 
 
-  def get(ghlogin)
-    return @coll.find_one({ 'gh_login' => ghlogin })
+  def get(gh_login)
+    return @coll.find_one({ 'gh_login' => gh_login })
   end
 
 
@@ -56,8 +56,7 @@ class User
     @user['gh_html_url'] = data['html_url']
     @user['gh_created_at'] = data['created_at']
 
-    oid = @coll.insert(@user)
-    return @coll.find_one({ :_id => oid })
+    return @coll.find_one({ '_id' => @coll.insert(@user) })
   end
 
 

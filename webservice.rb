@@ -12,7 +12,6 @@ class WebService
     end
     request = Net::HTTP::Get.new(uri.request_uri)
     resp = http.request(request)
-    # if response body is empty
     if 0 == resp.body.strip.length
       raise "web service error %s" % url
     end
@@ -54,8 +53,8 @@ class Github < WebService
   def get_user_repos(user)
     page = 1
     repos = []
-    repocount = user['public_repos']
-    login = user['login']
+    repocount = user['gh_public_repos']
+    login = user['gh_login']
     while repocount > 0
       url = "https://api.github.com/users/#{login}/repos?per_page=100&page=#{page}"
       data = self.get_data(url)

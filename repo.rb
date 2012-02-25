@@ -3,42 +3,44 @@ class Repo < Database
   def initialize(db)
     @db = db
     @coll = db.collection('repos')
+  end
 
-    # repo data is automatically updated
-    @repo = {
-      'user_id' => nil,
-      'open_issues' => nil,
-      'watchers' => nil,
-      'pushed_at' => nil,
-      'homepage' => nil,
-      'git_url' => nil,
-      'updated_at' => nil,
-      'fork' => nil,
-      'forks' => nil,
-      'language' => nil,
-      'private' => nil,
-      'size' => nil,
-      'clone_url' => nil,
-      'created_at' => nil,
-      'name' => nil,
-      'html_url' => nil,
-      'description' => nil
+  # currently only works with github data
+  def create_user_repo(user, data)
+    # map data to fields
+    repo = {
+      'user_id' => user['_id'],
+      'open_issues' => data['open_issues'],
+      'watchers' => data['watchers'],
+      'pushed_at' => data['pushed_at'],
+      'homepage' => data['homepage'],
+      'git_url' => data['git_url'],
+      'updated_at' => data['updated_at'],
+      'fork' => data['fork'],
+      'forks' => data['forks'],
+      'language' => data['language'],
+      'private' => data['private'],
+      'size' => data['size'],
+      'clone_url' => data['clone_url'],
+      'created_at' => data['created_at'],
+      'name' => data['name'],
+      'html_url' => data['html_url'],
+      'description' => data['description']
     }
+
+    @coll.insert(repo)
+    return repo
   end
 
 
-  def create(data)
-
-  end
-
-
-  def update(repo, data)
+  # repo data is automatically updated
+  def update_user_repo(repo, data)
 
   end
 
 
   def get_user_repos(user)
-
+    return @coll.find({ 'user_id' => user['_id'] }).to_a
   end
 
 

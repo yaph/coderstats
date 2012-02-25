@@ -11,7 +11,7 @@ $(function(){
 var Feed = {
   load: function() {
     // users public activity
-    var url = 'https://github.com/' + $('#ghlogin').text() + '.atom';
+    var url = 'https://github.com/' + $('#gh_login').text() + '.atom';
     $.getScript('http://www.google.com/jsapi?key=AIzaSyB75IDBFMpF9DsLFbDVwVY0Kzn9CIBBQhY', function(data, textStatus){
       function initfeed() {
         var feed = new google.feeds.Feed(url);
