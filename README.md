@@ -4,7 +4,7 @@ http://coderstats.geeksta.net/
 
 ## TODOs
 
-* Create users, repos and optionally languages mongodb collections
+* Migrate data from github collection
 * Update data from Web services automatically (1 week lifetime) using cron
 * Generate 3 different top coder indexes with 100 entries once a day using cron or once on demand
 * Terms of service based on http://en.wordpress.com/tos/
