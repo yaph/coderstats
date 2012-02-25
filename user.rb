@@ -37,8 +37,10 @@ class User
 
   # currently only works with github data
   def create(data)
-    @user['created_at'] = Time.now.utc
-
+    now = Time.now.utc
+    @user['created_at'] = now
+    @user['updated_at'] = now
+    
     # map data to fields
     @user['gh_login'] = data['login']
     @user['name'] = data['name']
