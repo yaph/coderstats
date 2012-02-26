@@ -8,6 +8,10 @@ http://coderstats.geeksta.net/
 * Generate 3 different top coder indexes with 100 entries once a day using cron or once on demand
 * Terms of service based on http://en.wordpress.com/tos/
 * Fix Github oauth login
+* Fetch and evaluate more data like for authenticated users, e.g.
+    * users followers https://api.github.com/users/yaph/followers
+    * the last 10 commits for the 10 most recently updated repositories https://api.github.com/repos/yaph/coderstats/commits
+    * Alternatively parse users RSS feed
 * delete account feature for authenticated users
 * Aggregations:
     * overall most used languages of owned repos
