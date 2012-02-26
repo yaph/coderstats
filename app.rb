@@ -60,7 +60,7 @@ module Coderstats
         gh = Github.new()
         ghrepos = gh.get_user_repos(user)
         if ghrepos.empty?
-          raise "no user repos: %s" % user['gh_login']
+          return nil
         end
 
         # create user repos and return array
@@ -106,12 +106,16 @@ module Coderstats
       stats = nil
       begin
         gh_login = params[:ghuser]
-        user = get_set_user(gh_login)
-        stats = Stats.new.get(get_set_repos(user))
         # set defaulttab here to avaid logic in template
         defaulttab = 'owned'
-        if stats['all']['total'] > 0 and stats['owned']['total'] == 0
-          defaulttab = 'forked'
+        # get user and repo data from db or web service
+        user = get_set_user(gh_login)
+        repos = get_set_repos(user)
+        if repos
+          stats = Stats.new.get(repos)
+          if stats['all']['total'] > 0 and stats['owned']['total'] == 0
+            defaulttab = 'forked'
+          end
         end
         liquid :coder, :locals => {
           :user => user,

@@ -105,7 +105,7 @@
 
   {% else %}
     <h2>No code yet</h2>
-    <p>This user hasn't added code to public Github repositories.</p>
+    <p><strong>{{ user.gh_login|escape }}</strong> hasn't added code to public Github repositories yet. Use your chance to <a href="https://github.com/repositories/new">create something awesome</a>.</p>
   {% endif %}
   </div>
 </div>
