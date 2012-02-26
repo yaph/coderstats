@@ -107,9 +107,16 @@ module Coderstats
       begin
         gh_login = params[:ghuser]
         user = get_set_user(gh_login)
+        stats = Stats.new.get(get_set_repos(user))
+        # set defaulttab here to avaid logic in template
+        defaulttab = 'owned'
+        if stats['all']['total'] > 0 and stats['owned']['total'] == 0
+          defaulttab = 'forked'
+        end
         liquid :coder, :locals => {
           :user => user,
-          :stats => Stats.new.get(get_set_repos(user)),
+          :stats => stats,
+          :defaulttab => defaulttab,
           :title => 'Code statistics for Github user %s' % gh_login
         }
       rescue => e
