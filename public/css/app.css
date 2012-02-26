@@ -28,5 +28,8 @@ border-top:1px solid #ddd;
 margin-top:1em;
 padding-top:1em;
 }
+#languagetablinks a {
+text-transform: capitalize;
+}
 .vcard li {list-style:none;}
 .chart {height:250px;}

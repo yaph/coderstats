@@ -55,18 +55,19 @@
   </div>
 
   <div class="span9">
+  {% if stats.all.total > 0 %}
     <header><h2>Programming Language Statistics</h2></header>
 
     <ul class="nav nav-tabs" id="languagetablinks">
-      <li class="active"><a id="linkall" href="#all" data-toggle="tab">All</a></li>
-      <li><a id="linkowned" href="#owned" data-toggle="tab">Owned</a></li>
-      <li><a id="linkforked" href="#forked" data-toggle="tab">Forked</a></li>
+    {% for idx in stats %}{% if idx[1].total > 0 %}
+      <li{% if 'all' == idx[0] %} class="active"{% endif %}><a id="link{{ idx[0] }}" href="#{{ idx[0] }}" data-toggle="tab">{{ idx[0] }} ({{ idx[1].total|escape }})</a></li>
+    {% endif %}{% endfor %}
     </ul>
 
     <div class="well"><div id="infovis" class="chart"></div></div>
 
     <div class="tab-content" id="languagetabs">
-    {% for idx in stats %}
+    {% for idx in stats %}{% if idx[1].total > 0 %}
     <div class="tab-pane{% if 'all' == idx[0] %} active{% endif %}" id="{{ idx[0] }}">
     <table class="table table-bordered">
       <thead>
@@ -93,8 +94,12 @@
       </tbody>
     </table>
     </div>
-    {% endfor %}
+    {% endif %}{% endfor %}
     </div>
 
+  {% else %}
+    <h2>No code yet</h2>
+    <p>This user hasn't added code to public Github repositories.</p>
+  {% endif %}
   </div>
 </div>
