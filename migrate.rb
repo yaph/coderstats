@@ -17,7 +17,7 @@ def get_set_user(gh_login)
   gh = Github.new()
   ghuser = gh.get_user(gh_login)
   if ghuser.nil?
-    raise "no user data: %s" % gh_login
+    return nil
   end
 
   # create user in users collection
@@ -35,7 +35,7 @@ def get_set_repos(user)
   gh = Github.new()
   ghrepos = gh.get_user_repos(user)
   if ghrepos.empty?
-    raise "no user repos: %s" % user['gh_login']
+    return nil
   end
 
   # create user repos and return array
@@ -45,11 +45,13 @@ def get_set_repos(user)
 end
 
 ghcoll = $db.collection('github')
-ghdata = ghcoll.find({}, :sort => ['updated_at', -1], :limit => 5)
+ghdata = ghcoll.find({}, :sort => ['updated_at', -1], :limit => 50)
 
 ghdata.each do|u| 
   gh_login = u['login']
   user = get_set_user(gh_login)
-  repos = get_set_repos(user)
+  if user
+    repos = get_set_repos(user)
+  end
   ghcoll.remove({:_id => u['_id']});
 end
