@@ -60,7 +60,7 @@
 
     <ul class="nav nav-tabs" id="languagetablinks">
     {% for idx in stats %}{% if idx[1].total > 0 %}
-      <li{% if 'all' == idx[0] %} class="active"{% endif %}><a id="link{{ idx[0] }}" href="#{{ idx[0] }}" data-toggle="tab">{{ idx[0] }} ({{ idx[1].total|escape }})</a></li>
+      <li{% if 'owned' == idx[0] %} class="active"{% endif %}><a id="link{{ idx[0] }}" href="#{{ idx[0] }}" data-toggle="tab">{{ idx[0] }} ({{ idx[1].total|escape }})</a></li>
     {% endif %}{% endfor %}
     </ul>
 
@@ -68,7 +68,7 @@
 
     <div class="tab-content" id="languagetabs">
     {% for idx in stats %}{% if idx[1].total > 0 %}
-    <div class="tab-pane{% if 'all' == idx[0] %} active{% endif %}" id="{{ idx[0] }}">
+    <div class="tab-pane{% if 'owned' == idx[0] %} active{% endif %}" id="{{ idx[0] }}">
     <table class="table table-bordered">
       <thead>
         <tr>
