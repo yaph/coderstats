@@ -7,6 +7,7 @@ http://coderstats.geeksta.net/
 * Update data from Web services automatically (1 week lifetime) using cron
 * Add info about Chrome extension
 * Generate 3 different top coder indexes with 100 entries once a day using cron or once on demand
+* Make charts embeddable
 * Terms of service based on http://en.wordpress.com/tos/
 * Fix Github oauth login, put auth data into auth collection
 * Fetch and evaluate more data like for authenticated users, e.g.

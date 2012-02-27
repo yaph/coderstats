@@ -51,7 +51,7 @@ class Github < WebService
 
     # load from web service
     ghuser = self.get_user(gh_login)
-    raise "no user data: %s" % gh_login if ghuser.nil
+    raise "no user data: %s" % gh_login if ghuser.nil?
 
     # create user in users collection
     return user.create(ghuser)
