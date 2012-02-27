@@ -12,6 +12,7 @@ http://coderstats.geeksta.net/
     * users followers https://api.github.com/users/yaph/followers
     * the last 10 commits for the 10 most recently updated repositories https://api.github.com/repos/yaph/coderstats/commits
     * Alternatively parse users RSS feed
+    * Fetch data from coderwall provided user has specified the coderwall name into coderwall collection
 * delete account feature for authenticated users
 * Aggregations:
     * overall most used languages of owned repos
