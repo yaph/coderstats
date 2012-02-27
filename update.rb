@@ -1,15 +1,25 @@
-# check whether data exists or is outdated, i.e. older than a week = 604800 seconds
-#if ghdata.nil? || now - ghdata['updated'] > 604800
-#          if ghdata && ghdata['_id']
-#            oid = ghdata['_id']
-#            doc[:created] = ghdata['created']
-#            ghcoll.update({'_id' => oid}, doc)
-#          else
-#            # no user data exists so far
-#            doc[:created] = now
-#            oid = ghcoll.insert(doc)
-#          end
-#          ghdata = ghcoll.find_one({ :_id => oid })
-#        end
-#        repos = ghdata['repos']
+require 'rubygems'
+require 'logger'
+require './db.rb'
+require './github.rb'
 
+record_limit = 10
+#lifetime = 604800 # 1 week in seconds
+lifetime = 86400 # 1 day only for testing
+update_threshold = Time.now.utc - lifetime
+
+db = Database.new().connect()
+gh = Github.new(db)
+user = User.new(db)
+repo = Repo.new(db)
+coll_user = user.get_coll
+
+coll_user.find('updated_at' => {'$lt' => update_threshold}).limit(record_limit).each do |u|
+  puts 'Updating user %s' % u['gh_login']
+  ghuser = gh.get_user(u['gh_login'])
+  user.update(u, ghuser)
+  ghrepos = gh.get_user_repos(u)
+  if !ghrepos.empty?
+    ghrepos.each { |r| repo.update_user_repo(u, r) }
+  end
+end

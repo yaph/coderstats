@@ -35,6 +35,11 @@ class User
   end
 
 
+  def get_coll()
+    return @coll
+  end
+
+
   # currently only works with github data
   def create(data)
     now = Time.now.utc
@@ -73,7 +78,7 @@ class User
     user['gh_public_repos'] = data['public_repos']
     user['gh_html_url'] = data['html_url']
 
-    @coll.update({ '_id' => user['id'] }, user)
+    @coll.update({ '_id' => user['_id'] }, user)
     return user
   end
 
