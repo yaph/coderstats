@@ -4,8 +4,7 @@ require './db.rb'
 require './github.rb'
 
 record_limit = 10
-#lifetime = 604800 # 1 week in seconds
-lifetime = 86400 # 1 day only for testing
+lifetime = 604800 # 1 week in seconds
 update_threshold = Time.now.utc - lifetime
 
 db = Database.new().connect()
