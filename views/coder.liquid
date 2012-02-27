@@ -25,7 +25,7 @@
     </div>
     <div class="row">
       <div class="span3">
-        <p>GitHubber since: {{ user.gh_created_at| date: "%h %Y" }}</p>
+        <p class="label label-info">GitHubber since: {{ user.gh_created_at| date: "%h %Y" }}</p>
         <table class="table table-bordered">
         <tbody>
           <tr><td>Number of public repos</td><td>{{ user.gh_public_repos|escape }}</td></tr>
@@ -36,6 +36,7 @@
           <tr><td>Following</td><td>{{ user.gh_following|escape }}</td></tr>
         </tbody>
         </table>
+        <p class="label label-info">Last data update for {{ user.gh_login|escape }}: {{ user.updated_at|date: "%Y-%m-%d" }}</p>
       </div>
     </div>
     <div class="row">
