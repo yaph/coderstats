@@ -1,5 +1,8 @@
 require 'logger'
 require './db.rb'
+require './webservice.rb'
+require './user.rb'
+require './repo.rb'
 require './github.rb'
 require './stats.rb'
 
@@ -41,10 +44,27 @@ module Coderstats
 
 
     get '/' do
-      ghcoll = settings.db.collection('users')
-      ghdata = ghcoll.find({}, :sort => ['updated_at', -1], :limit => 12)
+
+      limit = 5
+      user = User.new(settings.db)
+      ghcoll = settings.db.collection('counts_user_repos')
+
+      users_by_ownedlangs = []
+      ghdata = ghcoll.find({}, :sort => ['value.ownedlangs', -1], :limit => limit)
+      ghdata.to_a.each { |r| users_by_ownedlangs.push(r.merge(user.get_by_id(r['_id']))) }
+
+      users_by_ownedforks = []
+      ghdata = ghcoll.find({}, :sort => ['value.ownedforks', -1], :limit => limit)
+      ghdata.to_a.each { |r| users_by_ownedforks.push(r.merge(user.get_by_id(r['_id']))) }
+
+      users_by_ownedwatchers = []
+      ghdata = ghcoll.find({}, :sort => ['value.ownedwatchers', -1], :limit => limit)
+      ghdata.to_a.each { |r| users_by_ownedwatchers.push(r.merge(user.get_by_id(r['_id']))) }
+
       liquid :index, :locals => {
-        :latest => ghdata.to_a,
+        :users_by_ownedlangs => users_by_ownedlangs,
+        :users_by_ownedforks => users_by_ownedforks,
+        :users_by_ownedwatchers => users_by_ownedwatchers,
         :title => 'Coderstats - Get statistics for your Github code'
       }
     end

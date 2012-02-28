@@ -10,16 +10,8 @@ db.repos.find({user_id:ObjectId("4f4a3a70b744de2fd90000ff"), fork:false}).count(
 Get all users with number of owned repos
 db.repos.group({ key: {"user_id": true}, initial: {sum: 0}, reduce: function(doc, prev) {if (doc.fork===false) prev.sum += 1} })
 
-// Sorted by owned languages count
-db[op.result].find().sort({"value.ownedlangs": -1});
-
-
-http://www.mongodb.org/display/DOCS/Scripting+the+shell
-
-
 ## TODOs
 
-* Generate 3 different top coder indexes with 100 entries once a day using cron or once on demand
 * Add info about Chrome extension
 * Make charts embeddable
 * Terms of service based on http://en.wordpress.com/tos/

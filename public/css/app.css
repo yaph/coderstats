@@ -28,5 +28,10 @@ border-top:1px solid #ddd;
 margin-top:1em;
 padding-top:1em;
 }
+#indexstats h2 {
+padding-left:1.4em;
+}
+
 .vcard li {list-style:none;}
 .chart {height:250px;}
+.imgsmall {max-width:30px;}

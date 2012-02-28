@@ -1,7 +1,4 @@
 require 'json'
-require './webservice.rb'
-require './user.rb'
-require './repo.rb'
 
 class Github < WebService
 

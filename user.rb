@@ -35,6 +35,11 @@ class User
   end
 
 
+  def get_by_id(id)
+    return @coll.find_one({ '_id' => id })
+  end
+
+
   def get_coll()
     return @coll
   end
