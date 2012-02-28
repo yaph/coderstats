@@ -1,6 +1,6 @@
 // http://www.mongodb.org/display/DOCS/Scripting+the+shell
 // Collect stats on repos grouped by users and save to counts_user_repos collection
-db = connect('coderstats');
+// db = connect('coderstats');
 var targetcoll = 'counts_user_repos';
 var map = function() {
   emit(this.user_id, {

@@ -1,2 +1,2 @@
 #!/bin/bash
-mongo counts_user_repos.js
+mongo --host $OPENSHIFT_NOSQL_DB_HOST --port $OPENSHIFT_NOSQL_DB_PORT -u $OPENSHIFT_NOSQL_DB_USERNAME -p$OPENSHIFT_NOSQL_DB_PASSWORD coderstats
