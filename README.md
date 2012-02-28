@@ -12,9 +12,10 @@ db.repos.group({ key: {"user_id": true}, initial: {sum: 0}, reduce: function(doc
 
 ## TODOs
 
-* Check for duplicates in users collection by gh_login and remove duplicates
-* Omit user "type": "Organization" from top coder stats? requires user type in repos collection
 * Add info about Chrome extension
+* Achievements: (btn class buttons above Share stats)
+* Omit user "type": "Organization" from top coder stats? requires user type in repos collection
+* Check for duplicates in users collection by gh_login and remove duplicates
 * Make charts embeddable
 * Terms of service based on http://en.wordpress.com/tos/
 * Fix Github oauth login, put auth data into auth collection
@@ -25,8 +26,6 @@ db.repos.group({ key: {"user_id": true}, initial: {sum: 0}, reduce: function(doc
     * Fetch data from coderwall provided user has specified the coderwall name into coderwall collection
     * Allow data update if older than 24 hrs
 * delete account feature for authenticated users
-* Aggregations:
-    * overall most used languages of owned repos
 * User RSS feed
 * Don't display empty tabs
 * More details on repos like collaborators http://developer.github.com/v3/repos/collaborators/
