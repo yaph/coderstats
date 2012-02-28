@@ -26,7 +26,7 @@ class Achievements
     @achievements.each do |achievement, definition|
       next if !user['value'][achievement]
 
-      if (user['value'][achievement] > definition['min'])
+      if (user['value'][achievement] >= definition['min'])
         user['achievements'] = {} if !user['achievements']
         user['achievements'][definition['title']] = definition['desc']
       end

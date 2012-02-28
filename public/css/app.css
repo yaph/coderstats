@@ -44,6 +44,10 @@ padding-top:.2em;
 #indexstats .icon-home {
 padding:.15em;
 }
+#achievements button{
+margin-bottom:.5em;
+cursor:help;
+}
 
 .vcard li {list-style:none;}
 .chart {height:250px;}

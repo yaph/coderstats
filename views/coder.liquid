@@ -42,10 +42,10 @@
 
     {% if user.achievements %}
     <div class="row">
-      <div class="span3">
+      <div class="span3" id="achievements">
         <header><h2>Achievements</h2></header>
         {% for a in user.achievements %}
-          <button class="btn-success" title="{{a[1]}}">{{a[0]}}</button>
+          <button class="btn-success btn-large" title="{{a[1]}}">{{a[0]}}</button>
         {% endfor %}
       </div>
     </div>
