@@ -31,7 +31,15 @@ padding-top:1em;
 #indexstats h2 {
 padding-left:1.4em;
 }
+#indexstats .homepage {
+display:block;
+padding-top:.2em;
+}
+#indexstats .icon-signal,
+#indexstats .icon-home {
+padding:.15em;
+}
 
 .vcard li {list-style:none;}
 .chart {height:250px;}
-.imgsmall {max-width:30px;}
+.imgsmall {max-width:35px;}

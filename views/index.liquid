@@ -25,15 +25,16 @@
             <td><a href="/coder/{{user.gh_login|escape}}" title="{{user.gh_login|escape}}"><img class="imgsmall" src="{{user.avatar_url|escape}}" alt="{{user.gh_login|escape}}"></a></td>
             <td>{{user.value.ownedlangs|remove:'.0'}}</td>
             <td>
+            <a href="/coder/{{user.gh_login|escape}}" title="{{user.gh_login|escape}}"><i class="icon-signal"></i>Coder stats for {{user.gh_login|escape}}</a><br>
             {% if user.name %}
               {% if user.homepage %}
-                <a href="{{user.homepage|escape}}">{{user.name|escape}}</a>
+                <a class="homepage"<a class="homepage" href="{{user.homepage|escape}}"><i class="icon-home"></i>{{user.name|escape}}</a>
               {% else %}
                 {{user.name|escape}}
               {% endif %}
             {% else %}
               {% if user.homepage %}
-                <a href="{{user.homepage|escape}}">{{user.homepage|escape}}</a>
+                <a class="homepage"<a class="homepage" href="{{user.homepage|escape}}"><i class="icon-home"></i>{{user.homepage|escape}}</a>
               {% endif %}
             {% endif %}
             </td>
@@ -59,15 +60,16 @@
             <td><a href="/coder/{{user.gh_login|escape}}" title="{{user.gh_login|escape}}"><img class="imgsmall" src="{{user.avatar_url|escape}}" alt="{{user.gh_login|escape}}"></a></td>
             <td>{{user.value.ownedforks|remove:'.0'}}</td>
             <td>
+            <a href="/coder/{{user.gh_login|escape}}" title="{{user.gh_login|escape}}"><i class="icon-signal"></i>Coder stats for {{user.gh_login|escape}}</a><br>
             {% if user.name %}
               {% if user.homepage %}
-                <a href="{{user.homepage|escape}}">{{user.name|escape}}</a>
+                <a class="homepage"<a class="homepage" href="{{user.homepage|escape}}"><i class="icon-home"></i>{{user.name|escape}}</a>
               {% else %}
                 {{user.name|escape}}
               {% endif %}
             {% else %}
               {% if user.homepage %}
-                <a href="{{user.homepage|escape}}">{{user.homepage|escape}}</a>
+                <a class="homepage"<a class="homepage" href="{{user.homepage|escape}}"><i class="icon-home"></i>{{user.homepage|escape}}</a>
               {% endif %}
             {% endif %}
             </td>
@@ -93,15 +95,16 @@
             <td><a href="/coder/{{user.gh_login|escape}}" title="{{user.gh_login|escape}}"><img class="imgsmall" src="{{user.avatar_url|escape}}" alt="{{user.gh_login|escape}}"></a></td>
             <td>{{user.value.ownedwatchers|remove:'.0'}}</td>
             <td>
+            <a href="/coder/{{user.gh_login|escape}}" title="{{user.gh_login|escape}}"><i class="icon-signal"></i>Coder stats for {{user.gh_login|escape}}</a><br>
             {% if user.name %}
               {% if user.homepage %}
-                <a href="{{user.homepage|escape}}">{{user.name|escape}}</a>
+                <a class="homepage"<a class="homepage" href="{{user.homepage|escape}}"><i class="icon-home"></i>{{user.name|escape}}</a>
               {% else %}
                 {{user.name|escape}}
               {% endif %}
             {% else %}
               {% if user.homepage %}
-                <a href="{{user.homepage|escape}}">{{user.homepage|escape}}</a>
+                <a class="homepage"<a class="homepage" href="{{user.homepage|escape}}"><i class="icon-home"></i>{{user.homepage|escape}}</a>
               {% endif %}
             {% endif %}
             </td>
