@@ -15,13 +15,12 @@
     </header>
     <table class="table table-bordered">
       <thead>
-        <tr><th>#</th><th>Coder</th><th>Count</th><th>User Info</th>
+        <tr><th>Coder</th><th>Count</th><th>User Info</th>
         </tr>
       </thead>
       <tbody>
         {% for user in users_by_ownedlangs %}
           <tr>
-            <td>{{ forloop.index }}</td>
             <td><a href="/coder/{{user.gh_login|escape}}" title="{{user.gh_login|escape}}"><img class="imgsmall" src="{{user.avatar_url|escape}}" alt="{{user.gh_login|escape}}"></a></td>
             <td>{{user.value.ownedlangs|remove:'.0'}}</td>
             <td>
@@ -50,13 +49,12 @@
     </header>
     <table class="table table-bordered">
       <thead>
-        <tr><th>#</th><th>Coder</th><th>Count</th><th>User Info</th>
+        <tr><th>Coder</th><th>Count</th><th>User Info</th>
         </tr>
       </thead>
       <tbody>
         {% for user in users_by_ownedforks %}
           <tr>
-            <td>{{ forloop.index }}</td>
             <td><a href="/coder/{{user.gh_login|escape}}" title="{{user.gh_login|escape}}"><img class="imgsmall" src="{{user.avatar_url|escape}}" alt="{{user.gh_login|escape}}"></a></td>
             <td>{{user.value.ownedforks|remove:'.0'}}</td>
             <td>
@@ -85,13 +83,12 @@
     </header>
     <table class="table table-bordered">
       <thead>
-        <tr><th>#</th><th>Coder</th><th>Count</th><th>User Info</th>
+        <tr><th>Coder</th><th>Count</th><th>User Info</th>
         </tr>
       </thead>
       <tbody>
         {% for user in users_by_ownedwatchers %}
           <tr>
-            <td>{{ forloop.index }}</td>
             <td><a href="/coder/{{user.gh_login|escape}}" title="{{user.gh_login|escape}}"><img class="imgsmall" src="{{user.avatar_url|escape}}" alt="{{user.gh_login|escape}}"></a></td>
             <td>{{user.value.ownedwatchers|remove:'.0'}}</td>
             <td>
