@@ -10,35 +10,11 @@ db.repos.find({user_id:ObjectId("4f4a3a70b744de2fd90000ff"), fork:false}).count(
 Get all users with number of owned repos
 db.repos.group({ key: {"user_id": true}, initial: {sum: 0}, reduce: function(doc, prev) {if (doc.fork===false) prev.sum += 1} })
 
-// Group users with language count
-var map = function() {
-  emit(this.user_id, {language: this.language, fork: this.fork});
-};
-var reduce = function(key, values) {
-  var ownedrepos = 0;
-  var ownedlangs = 0;
-  var ownedlanguages = {};
-  var forkedrepos = 0;
-  values.forEach(function(doc) {
-    if (doc.language && !doc.fork) {
-      ownedrepos++;
-      if (!ownedlanguages.hasOwnProperty(doc.language)) {
-        ownedlanguages[doc.language] = 0;//must be 0 since it gets incremented later
-        ownedlangs++;
-      }
-      ownedlanguages[doc.language]++;
-    } else {
-      forkedrepos++;
-    }
-  });
-  if (ownedrepos > 0) {
-    return {ownedlangs: ownedlangs, ownedrepos: ownedrepos, forkedrepos: forkedrepos, ownedlanguages: ownedlanguages};
-  }
-};
-var op = db.repos.mapReduce(map, reduce, {out: {merge: "counts_user_repos"}});
-db[op.result].remove({value:null});
 // Sorted by owned languages count
 db[op.result].find().sort({"value.ownedlangs": -1});
+
+
+http://www.mongodb.org/display/DOCS/Scripting+the+shell
 
 
 ## TODOs
