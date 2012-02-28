@@ -13,7 +13,7 @@ db.repos.group({ key: {"user_id": true}, initial: {sum: 0}, reduce: function(doc
 ## TODOs
 
 * Add info about Chrome extension
-* Achievements: (btn class buttons above Share stats)
+* Fix homepage links without protocol by adding http://
 * Omit user "type": "Organization" from top coder stats? requires user type in repos collection
 * Check for duplicates in users collection by gh_login and remove duplicates
 * Make charts embeddable

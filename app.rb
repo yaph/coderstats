@@ -5,7 +5,7 @@ require './user.rb'
 require './repo.rb'
 require './github.rb'
 require './stats.rb'
-#require '/achievements.rb'
+require './achievements.rb'
 
 module Coderstats
   class App < Sinatra::Base
@@ -96,7 +96,12 @@ module Coderstats
           if stats['all']['total'] > 0 and stats['owned']['total'] == 0
             defaulttab = 'forked'
           end
-          # TODO set user stats from counts_user_repos and Achievements
+          # set user stats from counts_user_repos and achievements
+          ghcoll = settings.db.collection('counts_user_repos')
+          ghdata = ghcoll.find_one({'_id' => user['_id']})
+          if ghdata
+            user = Achievements.new.get_user_achievements(user.merge(ghdata))
+          end
         end
         liquid :coder, :locals => {
           :user => user,

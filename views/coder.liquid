@@ -39,6 +39,18 @@
         <p class="label label-info">Last data update for {{ user.gh_login|escape }}: {{ user.updated_at|date: "%Y-%m-%d" }}</p>
       </div>
     </div>
+
+    {% if user.achievements %}
+    <div class="row">
+      <div class="span3">
+        <header><h2>Achievements</h2></header>
+        {% for a in user.achievements %}
+          <button class="btn-success" title="{{a[1]}}">{{a[0]}}</button>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+
     <div class="row">
       <div class="span3">
         <header><h2>Share Your Stats</h2></header>

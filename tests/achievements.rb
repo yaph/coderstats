@@ -17,7 +17,7 @@ test_user2 = {
 
 test_user3 = {}
 
-Achievements.new().get_user_achievements(test_user1)
-Achievements.new().get_user_achievements(test_user2)
-Achievements.new().get_user_achievements(test_user3)
+puts Achievements.new.get_user_achievements(test_user1)
+puts Achievements.new.get_user_achievements(test_user2)
+puts Achievements.new.get_user_achievements(test_user3)
 
