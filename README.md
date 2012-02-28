@@ -12,6 +12,7 @@ db.repos.group({ key: {"user_id": true}, initial: {sum: 0}, reduce: function(doc
 
 ## TODOs
 
+* Omit user "type": "Organization" from top coder stats? requires user type in repos collection
 * Add info about Chrome extension
 * Make charts embeddable
 * Terms of service based on http://en.wordpress.com/tos/
