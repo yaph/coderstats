@@ -15,12 +15,7 @@ module Coderstats
 
     set :ghsettings, settings.db.collection('settings').find_one()
 
-    set :github_options, {
-      :secret    => settings.ghsettings['gh_secret'],
-      :client_id => settings.ghsettings['gh_client_id']
-    }
-
-    register Sinatra::Auth::Github
+    use OmniAuth::Strategies::GitHub, settings.ghsettings['gh_secret'], settings.ghsettings['gh_client_id']
 
 
     helpers do
@@ -113,19 +108,12 @@ module Coderstats
 
 
     get '/login' do
-      authenticate!
-      "Hello There, #{github_user.name}!#{github_user.token}\n#{repos.inspect}"
+      redirect to('/auth/github')
     end
 
 
     get '/auth/github/callback' do
-      "Hello There, #{github_user.name}!#{github_user.token}\n#{repos.inspect}"
-    end
-
-
-    get '/logout' do
-      logout!
-      redirect 'https://github.com'
+      raise request.env
     end
 
   end

@@ -16,7 +16,8 @@ db.repos.group({ key: {"user_id": true}, initial: {sum: 0}, reduce: function(doc
 * Omit user "type": "Organization" from top coder stats
 * Make charts embeddable
 * Terms of service based on http://en.wordpress.com/tos/
-* Fix Github oauth login, put auth data into auth collection
+* Fix Github oauth login, put auth data into auth collection, see:
+    * https://github.com/nfo/gmail-oauth-sinatra/blob/master/app.rb
 * Fetch and evaluate more data like for authenticated users, e.g.
     * users followers https://api.github.com/users/yaph/followers
     * the last 10 commits for the 10 most recently updated repositories https://api.github.com/repos/yaph/coderstats/commits
@@ -24,6 +25,7 @@ db.repos.group({ key: {"user_id": true}, initial: {sum: 0}, reduce: function(doc
     * Fetch data from coderwall provided user has specified the coderwall name into coderwall collection
     * Allow data update if older than 24 hrs
 * Delete account feature for authenticated users
+* Move controller logic from github.rb to helpers.rb
 * Fix homepage links without protocol by adding http://
 * User RSS feed
 * Don't display empty tabs
