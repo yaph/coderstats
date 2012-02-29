@@ -118,6 +118,11 @@ module Coderstats
     end
 
 
+    get '/auth/github/callback' do
+      "Hello There, #{github_user.name}!#{github_user.token}\n#{repos.inspect}"
+    end
+
+
     get '/logout' do
       logout!
       redirect 'https://github.com'
