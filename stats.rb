@@ -1,10 +1,15 @@
 class Stats
 
   def initialize
-    @stats = {
-      'owned' => {'languages' => {}, 'total' => 0},
-      'forked' => {'languages' => {}, 'total' => 0},
-      'all' => {'languages' => {}, 'total' => 0}
+    @counts = {
+      'owned' => {'languages' => {}, 'total' => 0, 'langcount' => 0, 'forkcount' => 0, 'watchercount' => 0},
+      'forked' => {'languages' => {}, 'total' => 0, 'langcount' => 0, 'forkcount' => 0, 'watchercount' => 0},
+      'all' => {'languages' => {}, 'total' => 0, 'langcount' => 0, 'forkcount' => 0, 'watchercount' => 0}
+    }
+    @repos = {
+      'owned' => {'languages' => {}},
+      'forked' => {'languages' => {}},
+      'all' => {'languages' => {}}
     }
   end
 
@@ -22,22 +27,27 @@ class Stats
       end
     end
 
-    # sort languages by number of repos
-    @stats.each do |idx, lang|
-      @stats[idx]['languages'] = @stats[idx]['languages'].sort_by { |k, v| v.size }.reverse
+    # sort repo languages by number of repos
+    @repos.each do |idx, lang|
+      @repos[idx]['languages'] = @repos[idx]['languages'].sort_by { |k, v| v.size }.reverse
     end
 
-    return @stats
+    return {'counts' => @counts, 'repos' => @repos}
   end
 
 
   def set_repo_stat(index, repo)
-    @stats[index]['total'] += 1
+    @counts[index]['total'] += 1
+    @counts[index]['forkcount'] += repo['forks']
+    @counts[index]['watchercount'] += repo['watchers']
     lang = repo['language']
-    if @stats[index]['languages'].has_key?(lang)
-      @stats[index]['languages'][lang].push(repo)
+    if @counts[index]['languages'].has_key?(lang)
+      @counts[index]['languages'][lang] += 1
+      @repos[index]['languages'][lang].push(repo)
     else
-      @stats[index]['languages'][lang] = [repo]
+      @counts[index]['langcount'] += 1
+      @counts[index]['languages'][lang] = 1
+      @repos[index]['languages'][lang] = [repo]
     end
   end
 

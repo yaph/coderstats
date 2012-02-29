@@ -9,7 +9,6 @@ class Repo < Database
   def get_user_repo_hash(user, data)
     return {
       'user_id' => user['_id'],
-      'user_type' => user['gh_type'], # include this so top coder stats can be restricted to type "User"
       'open_issues' => data['open_issues'],
       'watchers' => data['watchers'],
       'pushed_at' => data['pushed_at'],
@@ -23,7 +22,7 @@ class Repo < Database
       'size' => data['size'],
       'clone_url' => data['clone_url'],
       'created_at' => data['created_at'],
-      'name' => data['name'],   # a unique name for a repo
+      'name' => data['name'],   # a unique name for a user repo
       'html_url' => data['html_url'],
       'description' => data['description']
     }

@@ -93,21 +93,14 @@ module Coderstats
         repos = gh.get_set_repos(user)
         if repos
           stats = Stats.new.get(repos)
-          if stats['all']['total'] > 0 and stats['owned']['total'] == 0
+          if stats['counts']['all']['total'] > 0 and stats['counts']['owned']['total'] == 0
             defaulttab = 'forked'
           end
-          # FIXME set achievements from stats since mapReduce calculations once
-          # live site seem not to work correctly across the entire dataset
-          # set user stats from counts_user_repos and achievements
-          ghcoll = settings.db.collection('counts_user_repos')
-          ghdata = ghcoll.find_one({'_id' => user['_id']})
-          if ghdata
-            user = Achievements.new.get_user_achievements(user.merge(ghdata))
-          end
+          user['stats'] = stats
+          user = Achievements.new.set_user_achievements(user)
         end
         liquid :coder, :locals => {
           :user => user,
-          :stats => stats,
           :defaulttab => defaulttab,
           :title => 'Code statistics for Github user %s' % gh_login
         }

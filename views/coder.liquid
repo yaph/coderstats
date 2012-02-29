@@ -28,12 +28,14 @@
         <p class="label label-info">GitHubber since: {{ user.gh_created_at| date: "%h %Y" }}</p>
         <table class="table table-bordered">
         <tbody>
-          <tr><td>Number of public repos</td><td>{{ user.gh_public_repos|escape }}</td></tr>
-          <tr><td>Number of public gists</td><td>{{ user.gh_public_gists|escape }}</td></tr>
-          <tr><td>Number of repos with code</td><td>{{ stats.all.total }}</td></tr>
-          <tr><td>Number of languages across repos</td><td>{{ stats.all.languages.size }}</td></tr>
           <tr><td>Followers</td><td>{{ user.gh_followers|escape }}</td></tr>
           <tr><td>Following</td><td>{{ user.gh_following|escape }}</td></tr>
+          <tr><td>Public repos</td><td>{{ user.gh_public_repos|escape }}</td></tr>
+          <tr><td>Public gists</td><td>{{ user.gh_public_gists|escape }}</td></tr>
+          <tr><td>Owned repos with code</td><td>{{ user.stats.counts.owned.total }}</td></tr>
+          <tr><td>Languages in owned repos</td><td>{{ user.stats.counts.owned.langcount }}</td></tr>
+          <tr><td>Total forks of owned repos</td><td>{{ user.stats.counts.owned.forkcount }}</td></tr>
+          <tr><td>Total watchers of owned repos</td><td>{{ user.stats.counts.owned.watchercount }}</td></tr>
         </tbody>
         </table>
         <p class="label label-info">Last data update for {{ user.gh_login|escape }}: {{ user.updated_at|date: "%Y-%m-%d" }}</p>
@@ -51,42 +53,28 @@
     </div>
     {% endif %}
 
-    <div class="row">
-      <div class="span3">
-        <header><h2>Share Your Stats</h2></header>
-            <div class="addthis_toolbox addthis_default_style addthis_32x32_style">
-            <a class="addthis_button_preferred_1"></a>
-            <a class="addthis_button_preferred_2"></a>
-            <a class="addthis_button_preferred_3"></a>
-            <a class="addthis_button_preferred_4"></a>
-            <a class="addthis_button_compact"></a>
-            <a class="addthis_counter addthis_bubble_style"></a>
-            </div>
-            <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid=ra-4ed01f714e438a38"></script>
-      </div>
-    </div>
   </div>
 
   <div class="span9">
-  {% if stats.all.total > 0 %}
+  {% if user.stats.counts.all.total > 0 %}
     <header><h2>Programming Language Statistics</h2></header>
 
     <ul class="nav nav-tabs" id="languagetablinks">
-    {% if stats.owned.total > 0 %}
-      <li class="active"><a id="linkowned" href="#owned" data-toggle="tab">Owned ({{ stats.owned.total|escape }})</a></li>
+    {% if user.stats.counts.owned.total > 0 %}
+      <li class="active"><a id="linkowned" href="#owned" data-toggle="tab">Owned ({{ user.stats.counts.owned.total|escape }})</a></li>
     {% endif %}
-    {% if stats.forked.total > 0 %}
-      <li{% if defaulttab == 'forked' %} class="active"{% endif %}><a id="linkforked" href="#forked" data-toggle="tab">Forked ({{ stats.forked.total|escape }})</a></li>
+    {% if user.stats.counts.forked.total > 0 %}
+      <li{% if defaulttab == 'forked' %} class="active"{% endif %}><a id="linkforked" href="#forked" data-toggle="tab">Forked ({{ user.stats.counts.forked.total|escape }})</a></li>
     {% endif %}
-    {% if stats.all.total > 0 %}
-      <li><a id="linkall" href="#all" data-toggle="tab">All ({{ stats.all.total|escape }})</a></li>
+    {% if user.stats.counts.all.total > 0 %}
+      <li><a id="linkall" href="#all" data-toggle="tab">All ({{ user.stats.counts.all.total|escape }})</a></li>
     {% endif %}
     </ul>
 
     <div class="well"><div id="infovis" class="chart"></div></div>
 
     <div class="tab-content" id="languagetabs">
-    {% for idx in stats %}{% if idx[1].total > 0 %}
+    {% for idx in user.stats.repos %}{% if idx[1].size > 0 %}
     <div class="tab-pane{% if defaulttab == idx[0] %} active{% endif %}" id="{{ idx[0] }}">
     <table class="table table-bordered">
       <thead>

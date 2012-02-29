@@ -38,6 +38,7 @@
           <div class="nav-collapse">
             <ul class="nav">
               <li><a href="https://chrome.google.com/webstore/detail/necogepejonacpphmlmcagmbjaogpbng">Get the Chrome Extension</a></li>
+              <li class="addthis_toolbox addthis_default_style"><a class="addthis_counter addthis_pill_style"></a></li>
             </ul>
           </div>
         </div>
@@ -55,11 +56,10 @@
 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
     <script src="/vendor/bootstrap/js/bootstrap.min.js"></script>
-    {% if stats %}
+    {% if user.stats.counts %}
       <script src="/vendor/jit/js/chart.min.js"></script>
       <script src="/js/profile.js"></script>
     {% endif %}
-
 <script type="text/javascript">
   var _gaq = _gaq || [];
   _gaq.push(['_setAccount', 'UA-5102014-10']);
@@ -71,5 +71,6 @@
     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
   })();
 </script>
+<script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid=ra-4ed01f714e438a38"></script>
   </body>
 </html>

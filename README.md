@@ -12,10 +12,8 @@ db.repos.group({ key: {"user_id": true}, initial: {sum: 0}, reduce: function(doc
 
 ## TODOs
 
-* Calculate user repo counts once when updating data and set user type in counts collection and remove mapReduce operation
-* Fix homepage links without protocol by adding http://
-* Omit user "type": "Organization" from top coder stats? requires user type in repos collection
-* Check for duplicates in users collection by gh_login and remove duplicates
+* Calculate user repo counts when creating/updating data and set user type in counts collection and remove mapReduce operation
+* Omit user "type": "Organization" from top coder stats
 * Make charts embeddable
 * Terms of service based on http://en.wordpress.com/tos/
 * Fix Github oauth login, put auth data into auth collection
@@ -25,7 +23,8 @@ db.repos.group({ key: {"user_id": true}, initial: {sum: 0}, reduce: function(doc
     * Alternatively parse users RSS feed
     * Fetch data from coderwall provided user has specified the coderwall name into coderwall collection
     * Allow data update if older than 24 hrs
-* delete account feature for authenticated users
+* Delete account feature for authenticated users
+* Fix homepage links without protocol by adding http://
 * User RSS feed
 * Don't display empty tabs
 * More details on repos like collaborators http://developer.github.com/v3/repos/collaborators/
@@ -41,52 +40,6 @@ to find.
     subtract 10%
   else if now - created_at > two_years
     add 10%
-
-## Mongodb Collections
-
-All fields except for gh_login are optional, use github data if available. Github
-specific fields are prefixed with gh_ and automatically updated. All other fields
-are set when user is created, i.e. logs in or is requested the first time.
-
-* users
-    * gh_login required
-    * login
-    * name
-    * hide_avatar       bool that indicates whether avatar is hidden
-    * email             not displayed publicly
-    * created_at        when user is requested or logs in the 1st
-    * updated_at        when was data from github updated
-    * avatar_url
-    * homepage
-    * location
-    * hireable
-    * company
-    * gh_followers
-    * gh_type
-    * public_gists
-    * gh_following
-    * gh_public_repos
-    * gh_html_url
-    * gh_created_at
-
-* repos
-    * user_id   _id from users collection
-    * open_issues
-    * watchers
-    * pushed_at
-    * homepage
-    * git_url
-    * updated_at
-    * fork
-    * forks
-    * language
-    * private
-    * size
-    * clone_url
-    * created_at
-    * name
-    * html_url
-    * description
 
 ## Other Services to consider
 * http://confluence.atlassian.com/display/BITBUCKET
