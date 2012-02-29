@@ -96,6 +96,8 @@ module Coderstats
           if stats['all']['total'] > 0 and stats['owned']['total'] == 0
             defaulttab = 'forked'
           end
+          # FIXME set achievements from stats since mapReduce calculations once
+          # live site seem not to work correctly across the entire dataset
           # set user stats from counts_user_repos and achievements
           ghcoll = settings.db.collection('counts_user_repos')
           ghdata = ghcoll.find_one({'_id' => user['_id']})
