@@ -17,6 +17,7 @@ class Achievements
         'title' => 'Broadcaster',
         'desc' => 'At least 50 watchers across owned repositories'
       }
+      #Rubyist, Pythonista
     }
   end
 
