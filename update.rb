@@ -1,11 +1,21 @@
 require 'rubygems'
 require 'logger'
 require './db.rb'
+require './webservice.rb'
+require './user.rb'
+require './repo.rb'
 require './github.rb'
-# FIXME move to cron dir
+require './stats.rb'
 
-record_limit = 10
-lifetime = 604800 # 1 week in seconds
+# FIXME move to cron dir and less updates after initial development
+
+#record_limit = 10
+#lifetime = 604800 # 1 week in seconds
+
+# more updates during initial development
+record_limit = 20
+lifetime = 172800 # 2 days
+
 update_threshold = Time.now.utc - lifetime
 
 db = Database.new().connect()
@@ -14,8 +24,7 @@ user = User.new(db)
 repo = Repo.new(db)
 coll_user = user.get_coll
 
-# FIXME sort by updated_at ASC
-coll_user.find('updated_at' => {'$lt' => update_threshold}).limit(record_limit).each do |u|
+coll_user.find({ 'updated_at' => {'$lt' => update_threshold} }, :sort => 'updated_at').limit(record_limit).each do |u|
   puts 'Updating user %s' % u['gh_login']
   ghuser = gh.get_user(u['gh_login'])
   user.update(u, ghuser)
