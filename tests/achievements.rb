@@ -2,14 +2,16 @@ require '../achievements.rb'
 
 test_user1 = {
   'stats' => {'counts' => {'owned' => {
-    'forkcount' => 100,
-    'langcount' => 3,
-    'watchercount' => 200
+    'total' => 70,
+    'forkcount' => 250,
+    'langcount' => 10,
+    'watchercount' => 500
   }}}
 }
 
 test_user2 = {
   'stats' => {'counts' => {'owned' => {
+    'total' => 30,
     'langcount' => 3,
     'watchercount' => nil
   }}}
