@@ -1,33 +1,11 @@
 GEM
   remote: http://rubygems.org/
   specs:
-    addressable (2.2.7)
     bson (1.6.0)
-    bson_ext (1.6.0)
-      bson (= 1.6.0)
-    faraday (0.7.6)
-      addressable (~> 2.2)
-      multipart-post (~> 1.1)
-      rack (~> 1.1)
-    hashie (1.2.0)
     json (1.6.5)
     liquid (2.3.0)
     mongo (1.6.0)
       bson (= 1.6.0)
-    multi_json (1.1.0)
-    multipart-post (1.1.5)
-    oauth2 (0.5.2)
-      faraday (~> 0.7)
-      multi_json (~> 1.0)
-    omniauth (1.0.2)
-      hashie (~> 1.2)
-      rack
-    omniauth-github (1.0.1)
-      omniauth (~> 1.0)
-      omniauth-oauth2 (~> 1.0)
-    omniauth-oauth2 (1.0.0)
-      oauth2 (~> 0.5.0)
-      omniauth (~> 1.0)
     rack (1.1.0)
     sinatra (1.2.8)
       rack (~> 1.1)
@@ -38,11 +16,8 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  bson_ext
   json
   liquid
   mongo
-  omniauth
-  omniauth-github
   rack (= 1.1)
   sinatra
