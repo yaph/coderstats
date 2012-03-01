@@ -13,9 +13,8 @@ module Coderstats
 
     set :db, Database.new().connect()
 
-    set :ghsettings, settings.db.collection('settings').find_one()
-
-    use OmniAuth::Strategies::GitHub, settings.ghsettings['gh_secret'], settings.ghsettings['gh_client_id']
+#    set :ghsettings, settings.db.collection('settings').find_one()
+#    use OmniAuth::Strategies::GitHub, settings.ghsettings['gh_secret'], settings.ghsettings['gh_client_id']
 
 
     helpers do
@@ -107,14 +106,14 @@ module Coderstats
     end
 
 
-    get '/login' do
-      redirect to('/auth/github')
-    end
+#    get '/login' do
+#      redirect to('/auth/github')
+#    end
 
 
-    get '/auth/github/callback' do
-      request.env['omniauth.auth']
-    end
+#    get '/auth/github/callback' do
+#      request.env['omniauth.auth']
+#    end
 
   end
 end
