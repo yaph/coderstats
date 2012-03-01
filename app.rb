@@ -113,7 +113,7 @@ module Coderstats
 
 
     get '/auth/github/callback' do
-      raise request.env
+      request.env
     end
 
   end
