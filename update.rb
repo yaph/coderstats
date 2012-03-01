@@ -1,11 +1,13 @@
 require 'rubygems'
-require 'logger'
-require './db.rb'
-require './webservice.rb'
-require './user.rb'
-require './repo.rb'
-require './github.rb'
-require './stats.rb'
+
+PATH = File.expand_path(File.dirname(__FILE__))
+
+require PATH + '/db.rb'
+require PATH + '/webservice.rb'
+require PATH + '/user.rb'
+require PATH + '/repo.rb'
+require PATH + '/github.rb'
+require PATH + '/stats.rb'
 
 # FIXME move to cron dir and less updates after initial development
 
