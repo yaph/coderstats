@@ -113,7 +113,7 @@ module Coderstats
 
 
     get '/auth/github/callback' do
-      request.env
+      request.env['omniauth.auth']
     end
 
   end
