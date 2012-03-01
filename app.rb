@@ -14,7 +14,7 @@ module Coderstats
     set :db, Database.new().connect()
 
 #    set :ghsettings, settings.db.collection('settings').find_one()
-#    use OmniAuth::Strategies::GitHub, settings.ghsettings['gh_secret'], settings.ghsettings['gh_client_id']
+#    use OmniAuth::Strategies::GitHub, settings.ghsettings['gh_client_id'], settings.ghsettings['gh_secret']
 
 
     helpers do
@@ -39,7 +39,6 @@ module Coderstats
 
 
     get '/' do
-
       limit = 5
       user = User.new(settings.db)
       ghcoll = settings.db.collection('counts_user_repos')
@@ -106,13 +105,23 @@ module Coderstats
     end
 
 
+#    get '/session' do
+#      session.inspect
+#    end
+
+
 #    get '/login' do
 #      redirect to('/auth/github')
 #    end
 
 
 #    get '/auth/github/callback' do
-#      request.env['omniauth.auth']
+#      access_token = request.env['omniauth.auth']['credentials']['token']
+#      uid = request.env['omniauth.auth']['uid'] # do I need this?
+#      gh_user_info = request.env['omniauth.auth']['extra']['raw_info']
+#      gh_login = gh_user_info['login']
+#      see http://www.sinatrarb.com/contrib/cookies.html
+#      liquid :index, :locals => {:title => "Hello #{gh_login}"}
 #    end
 
   end
