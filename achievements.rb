@@ -11,7 +11,7 @@ class Achievements
   def achievement_broadcaster(user)
     repos = user['stats']['counts']['owned']['total']
     watchers = user['stats']['counts']['owned']['watchercount']
-    if repos and watchers and watchers >= 6 * repos
+    if repos and watchers and watchers > 50 and watchers >= 6 * repos
       user['achievements']['Broadcaster'] = "At least 6 times as many watchers (#{watchers}) as repos (#{repos}) across owned repositories."
     end
   end
@@ -28,7 +28,7 @@ class Achievements
   def achievement_influencer(user)
     repos = user['stats']['counts']['owned']['total']
     forks = user['stats']['counts']['owned']['forkcount']
-    if repos and forks and forks >= 3 * repos
+    if repos and forks and forks > 50 and forks >= 3 * repos
       user['achievements']['Influencer'] = "At least 3 times as many forks (#{forks}) as repos (#{repos}) across owned repositories."
     end
   end

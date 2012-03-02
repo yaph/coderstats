@@ -14,11 +14,11 @@ db.users.find({}, {gh_login:1, updated_at:1}).sort({updated_at:1}).limit(10)
 
 ## TODOs
 
-* Calculate user repo counts when creating/updating data and set user type in counts collection and remove mapReduce operation
+* Calculate user repo counts when creating/updating data and set user type in counts collection and remove mapReduce operation. Also store achievement count in counts.
 * Omit user "type": "Organization" from top coder stats
 * Add favicon to avoid 404s
     * "GET /coder/images/favicon.ico HTTP/1.0" 404
-* Make charts embeddable
+* Make achievements, summary, tables, charts embeddable indicated by plus sign on top right of surrounding boxes, let users set title and light or dark styles.
 * Terms of service based on http://en.wordpress.com/tos/
 * Fix Github oauth login, put auth data into auth collection, see:
     * https://github.com/nfo/gmail-oauth-sinatra/blob/master/app.rb
