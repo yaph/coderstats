@@ -29,18 +29,16 @@ var reduce = function(key, values) {
       forkedrepos++;
     }
   });
-  if (ownedrepos > 0) {
-    return {
-      ownedlangs: ownedlangs,
-      ownedrepos: ownedrepos,
-      ownedlanguages: ownedlanguages,
-      ownedforks: ownedforks,
-      ownedwatchers: ownedwatchers,
-      forkedrepos: forkedrepos
-    };
-  }
+  return {
+    ownedlangs: ownedlangs,
+    ownedrepos: ownedrepos,
+    ownedlanguages: ownedlanguages,
+    ownedforks: ownedforks,
+    ownedwatchers: ownedwatchers,
+    forkedrepos: forkedrepos
+  };
 };
 // execure map reduce operation
 var op = db.repos.mapReduce(map, reduce, {out: {merge: targetcoll}});
 // remove records that contain no relevant data
-db[targetcoll].remove({value:null});
+db[targetcoll].remove({"value.ownedrepos":0});
