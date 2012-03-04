@@ -14,7 +14,7 @@ db.users.find({}, {gh_login:1, updated_at:1}).sort({updated_at:1}).limit(10)
 
 ## TODOs
 
-* Calculate user repo counts when creating/updating data and set user type in counts collection and remove mapReduce operation. Also store achievement count in counts.
+* in app.rb check whether user was created and only then call update_stats when there are no users left updated before 2012-03-05
 * Omit user "type": "Organization" from top coder stats
 * Add favicon to avoid 404s
     * "GET /coder/images/favicon.ico HTTP/1.0" 404
