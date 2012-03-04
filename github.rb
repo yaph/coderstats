@@ -27,7 +27,7 @@ class Github < WebService
     repos = []
     repocount = user['gh_public_repos']
     login = user['gh_login']
-    while repocount > 0
+    while repocount > 0 and page <= 10
       url = "https://api.github.com/users/#{login}/repos?per_page=100&page=#{page}"
       data = self.get_data(url)
       if data
