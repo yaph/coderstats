@@ -1,14 +1,14 @@
 require 'rubygems'
 
-#PATH = File.expand_path(File.dirname(__FILE__))
+PATH = File.expand_path(File.dirname(__FILE__))
 
-require './db.rb'
-require './webservice.rb'
-require './user.rb'
-require './repo.rb'
-require './github.rb'
-require './stats.rb'
-require './achievements.rb'
+require PATH + '/db.rb'
+require PATH + '/webservice.rb'
+require PATH + '/user.rb'
+require PATH + '/repo.rb'
+require PATH + '/github.rb'
+require PATH + '/stats.rb'
+require PATH + '/achievements.rb'
 
 #record_limit = 10
 #lifetime = 604800 # 1 week in seconds
