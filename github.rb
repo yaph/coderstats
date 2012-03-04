@@ -4,6 +4,12 @@ class Github < WebService
 
   def initialize(db)
     @db = db
+    @is_new_user = false
+  end
+
+
+  def is_new_user()
+    return @is_new_user
   end
 
 
@@ -51,6 +57,7 @@ class Github < WebService
     raise "no user data: %s" % gh_login if ghuser.nil?
 
     # create user in users collection
+    @is_new_user = true
     return user.create(ghuser)
   end
 
@@ -67,6 +74,17 @@ class Github < WebService
     dbrepos = []
     ghrepos.each { |r| dbrepos.push repo.create_user_repo(user, r) }
     return dbrepos
+  end
+
+
+  def update_stats(user)
+    doc = {
+      'user_id' => user['_id'],
+      'gh_type' => user['gh_type'],
+      'counts' => user['stats']['counts'],
+      'achievement_count' => user['achievements'].count()
+    }
+    @db.collection('stats_users').update({'user_id' => user['_id']}, doc, {:upsert => true})
   end
 
 end

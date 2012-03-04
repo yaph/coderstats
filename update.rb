@@ -1,15 +1,14 @@
 require 'rubygems'
 
-PATH = File.expand_path(File.dirname(__FILE__))
+#PATH = File.expand_path(File.dirname(__FILE__))
 
-require PATH + '/db.rb'
-require PATH + '/webservice.rb'
-require PATH + '/user.rb'
-require PATH + '/repo.rb'
-require PATH + '/github.rb'
-require PATH + '/stats.rb'
-
-# FIXME move to cron dir and less updates after initial development
+require './db.rb'
+require './webservice.rb'
+require './user.rb'
+require './repo.rb'
+require './github.rb'
+require './stats.rb'
+require './achievements.rb'
 
 #record_limit = 10
 #lifetime = 604800 # 1 week in seconds
@@ -28,10 +27,13 @@ coll_user = user.get_coll
 
 coll_user.find({ 'updated_at' => {'$lt' => update_threshold} }, :sort => 'updated_at').limit(record_limit).each do |u|
   puts 'Updating user %s' % u['gh_login']
-  ghuser = gh.get_user(u['gh_login'])
-  user.update(u, ghuser)
-  ghrepos = gh.get_user_repos(u)
-  if !ghrepos.empty?
-    ghrepos.each { |r| repo.update_user_repo(u, r) }
+  gh_user = gh.get_user(u['gh_login'])
+  user.update(u, gh_user)
+  gh_repos = gh.get_user_repos(u)
+  if !gh_repos.empty?
+    gh_repos.each { |r| repo.update_user_repo(u, r) }
+    u['stats'] = Stats.new.get(gh_repos)
+    u = Achievements.new.set_user_achievements(u)
+    gh.update_stats(u)
   end
 end

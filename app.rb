@@ -91,6 +91,8 @@ module Coderstats
           end
           user['stats'] = stats
           user = Achievements.new.set_user_achievements(user)
+          # after first update cycle after this change, only update stats when a new user was created
+          gh.update_stats(user)
         end
         liquid :coder, :locals => {
           :user => user,
