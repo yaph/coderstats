@@ -22,7 +22,7 @@
         {% for user in users_by_ownedlangs %}
           <tr>
             <td><a href="/coder/{{user.gh_login|escape}}" title="{{user.gh_login|escape}}"><img class="imgsmall" src="{{user.avatar_url|escape}}" alt="{{user.gh_login|escape}}"></a></td>
-            <td>{{user.value.ownedlangs|remove:'.0'}}</td>
+            <td>{{user.counts.owned.langcount}}</td>
             <td>
             <a href="/coder/{{user.gh_login|escape}}" title="{{user.gh_login|escape}}"><i class="icon-signal"></i>Coder stats for {{user.gh_login|escape}}</a><br>
             {% if user.name %}
@@ -56,7 +56,7 @@
         {% for user in users_by_ownedforks %}
           <tr>
             <td><a href="/coder/{{user.gh_login|escape}}" title="{{user.gh_login|escape}}"><img class="imgsmall" src="{{user.avatar_url|escape}}" alt="{{user.gh_login|escape}}"></a></td>
-            <td>{{user.value.ownedforks|remove:'.0'}}</td>
+            <td>{{user.counts.owned.forkcount}}</td>
             <td>
             <a href="/coder/{{user.gh_login|escape}}" title="{{user.gh_login|escape}}"><i class="icon-signal"></i>Coder stats for {{user.gh_login|escape}}</a><br>
             {% if user.name %}
@@ -90,7 +90,7 @@
         {% for user in users_by_ownedwatchers %}
           <tr>
             <td><a href="/coder/{{user.gh_login|escape}}" title="{{user.gh_login|escape}}"><img class="imgsmall" src="{{user.avatar_url|escape}}" alt="{{user.gh_login|escape}}"></a></td>
-            <td>{{user.value.ownedwatchers|remove:'.0'}}</td>
+            <td>{{user.counts.owned.watchercount}}</td>
             <td>
             <a href="/coder/{{user.gh_login|escape}}" title="{{user.gh_login|escape}}"><i class="icon-signal"></i>Coder stats for {{user.gh_login|escape}}</a><br>
             {% if user.name %}

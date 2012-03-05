@@ -25,6 +25,14 @@ module Coderstats
         }
       end
 
+
+      def get_top_coders(user, collection, sort_key, order = -1, limit = 5)
+        coders = []
+        data = collection.find({'gh_type' => 'User'}, :sort => [sort_key, order], :limit => limit)
+        data.to_a.each { |r| coders.push(r.merge(user.get_by_id(r['user_id']))) }
+        return coders
+      end
+
     end
 
 
@@ -39,26 +47,12 @@ module Coderstats
 
 
     get '/' do
-      limit = 5
       user = User.new(settings.db)
-      ghcoll = settings.db.collection('counts_user_repos')
-
-      users_by_ownedlangs = []
-      ghdata = ghcoll.find({}, :sort => ['value.ownedlangs', -1], :limit => limit)
-      ghdata.to_a.each { |r| users_by_ownedlangs.push(r.merge(user.get_by_id(r['_id']))) }
-
-      users_by_ownedforks = []
-      ghdata = ghcoll.find({}, :sort => ['value.ownedforks', -1], :limit => limit)
-      ghdata.to_a.each { |r| users_by_ownedforks.push(r.merge(user.get_by_id(r['_id']))) }
-
-      users_by_ownedwatchers = []
-      ghdata = ghcoll.find({}, :sort => ['value.ownedwatchers', -1], :limit => limit)
-      ghdata.to_a.each { |r| users_by_ownedwatchers.push(r.merge(user.get_by_id(r['_id']))) }
-
+      coll = settings.db.collection('stats_users')
       liquid :index, :locals => {
-        :users_by_ownedlangs => users_by_ownedlangs,
-        :users_by_ownedforks => users_by_ownedforks,
-        :users_by_ownedwatchers => users_by_ownedwatchers,
+        :users_by_ownedlangs => get_top_coders(user, coll, 'counts.owned.langcount'),
+        :users_by_ownedforks => get_top_coders(user, coll, 'counts.owned.forkcount'),
+        :users_by_ownedwatchers => get_top_coders(user, coll, 'counts.owned.watchercount'),
         :title => 'Coderstats - Get statistics for your Github code'
       }
     end
