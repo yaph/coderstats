@@ -78,22 +78,28 @@ module Coderstats
       stats = nil
       begin
         gh_login = params[:ghuser]
+
         # set defaulttab here to avaid logic in template
         defaulttab = 'owned'
+
         # get user and repo data from db or web service
         gh = Github.new(settings.db)
         user = gh.get_set_user(gh_login)
         repos = gh.get_set_repos(user)
-        if repos
-          stats = Stats.new.get(repos)
-          if stats['counts']['all']['total'] > 0 and stats['counts']['owned']['total'] == 0
-            defaulttab = 'forked'
-          end
-          user['stats'] = stats
-          user = Achievements.new.set_user_achievements(user)
-          # after first update cycle after this change, only update stats when a new user was created
-          gh.update_stats(user)
+
+        # set user stats
+        stats = Stats.new.get(repos)
+        if stats and stats['counts']['all']['total'] > 0 and stats['counts']['owned']['total'] == 0
+          defaulttab = 'forked'
         end
+        user['stats'] = stats
+
+        # set achievements before updating stats so achievement_count is set
+        user = Achievements.new.set_user_achievements(user)
+
+        # TODO after first update cycle after this change, only update stats when a new user was created
+        gh.update_stats(user)
+
         liquid :coder, :locals => {
           :user => user,
           :defaulttab => defaulttab,

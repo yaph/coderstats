@@ -1,10 +1,20 @@
 class Achievements
 
   def set_user_achievements(user)
-    return user unless user['stats']
     user['achievements'] = {}
-    self.methods.grep(/achievement_/).each {|method| self.send(method, user)}
+    if user['stats']
+      self.methods.grep(/achievement_/).each {|method| self.send(method, user)}
+    end
+    self.methods.grep(/others_/).each {|method| self.send(method, user)}
     return user
+  end
+
+
+  def check_lang_min(user, lang, min)
+    if user['stats']['counts']['owned']['languages'] and user['stats']['counts']['owned']['languages'][lang]
+      return user['stats']['counts']['owned']['languages'][lang] >= min
+    end
+    return false
   end
 
 
@@ -42,20 +52,39 @@ class Achievements
   end
 
 
+  def achievement_jsninja(user)
+    if self.check_lang_min(user, 'JavaScript', 5)
+      user['achievements']['JavaScript Ninja'] = 'At least 5 owned repositories with JavaScript as the main language.'
+    end
+  end
+
+
+  def achievement_perlmonk(user)
+    if self.check_lang_min(user, 'Perl', 5)
+      user['achievements']['Perl Monk'] = 'At least 5 owned repositories with Perl as the main language.'
+    end
+  end
+
+
   def achievement_pythonista(user)
-    return user unless user['stats']['counts']['owned']['languages']
-    python = user['stats']['counts']['owned']['languages']['Python']
-    if python and python >= 5
+    if self.check_lang_min(user, 'Python', 5)
       user['achievements']['Pythonista'] = 'At least 5 owned repositories with Python as the main language.'
     end
   end
 
 
   def achievement_rubyist(user)
-    return user unless user['stats']['counts']['owned']['languages']
-    ruby = user['stats']['counts']['owned']['languages']['Ruby']
-    if ruby and ruby >= 5
+    if self.check_lang_min(user, 'Ruby', 5)
       user['achievements']['Rubyist'] = 'At least 5 owned repositories with Ruby as the main language.'
+    end
+  end
+
+
+  # Achievements that don't depend on stats
+  def others_bdfl(user)
+    case user['gh_login']
+      when 'dhh', 'jeresig', 'rlerdorf', 'TimToady', 'torvalds'
+        user['achievements']['BDFL'] = 'Benevolent Dictator for Life'
     end
   end
 

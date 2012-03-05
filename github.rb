@@ -78,6 +78,8 @@ class Github < WebService
 
 
   def update_stats(user)
+    return false unless user['stats']
+
     doc = {
       'user_id' => user['_id'],
       'gh_type' => user['gh_type'],

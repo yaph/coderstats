@@ -15,6 +15,8 @@ class Stats
 
 
   def get(repos)
+    return nil if repos.nil?
+
     repos.each do |repo|
       # ignore repos with no code or language set
       next if repo['pushed_at'].nil? || repo['language'].nil?
