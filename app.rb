@@ -25,15 +25,17 @@ module Coderstats
     helpers do
 
       def set_error
-        liquid :error, :locals => {
-          :message => env['sinatra.error'].message, :title => 'Error'
-        }
+        message = 'Not Found'
+        if env['sinatra.error']
+          message = env['sinatra.error'].message
+        end
+        liquid :error, :locals => {:message => message, :title => 'Error'}
       end
 
 
-      def get_top_coders(user, collection, sort_key, order = -1, limit = 5)
+      def get_top_coders(user, collection, sort_key, order = -1, limit = 5, type = 'User')
         coders = []
-        data = collection.find({'gh_type' => 'User'}, :sort => [sort_key, order], :limit => limit)
+        data = collection.find({'gh_type' => type}, :sort => [sort_key, order], :limit => limit)
         data.to_a.each { |r| coders.push(r.merge(user.get_by_id(r['user_id']))) }
         return coders
       end
@@ -115,10 +117,35 @@ module Coderstats
     get '/ranking/:type' do
       user = User.new(settings.db)
       coll = settings.db.collection('stats_users')
-      liquid :ranking, :locals => {
-        :ranking => get_top_coders(user, coll, 'counts.owned.langcount', -1, 20),
-        :title => 'Top Coders by Number of Languages in Owned Repositories'
-      }
+      case params[:type]
+        when 'coders-by-language'
+          ranking = get_top_coders(user, coll, 'counts.owned.langcount', -1, 30)
+          title = 'Top Coders by Number of Languages in Owned Repositories'
+          index = 'langcount'
+        when 'coders-by-forks'
+          ranking = get_top_coders(user, coll, 'counts.owned.forkcount', -1, 30)
+          title = 'Top Coders by Number of Forks of Owned Repositories'
+          index = 'forkcount'
+        when 'coders-by-watchers'
+          ranking = get_top_coders(user, coll, 'counts.owned.watchercount', -1, 30)
+          title = 'Top Coders by Number of Watchers of Owned Repositories'
+          index = 'watchercount'
+        when 'organizations-by-language'
+          ranking = get_top_coders(user, coll, 'counts.owned.langcount', -1, 30, 'Organization')
+          title = 'Top Organizations by Number of Languages in Owned Repositories'
+          index = 'langcount'
+        when 'organizations-by-forks'
+          ranking = get_top_coders(user, coll, 'counts.owned.forkcount', -1, 30, 'Organization')
+          title = 'Top Organizations by Number of Forks of Owned Repositories'
+          index = 'forkcount'
+        when 'organizations-by-watchers'
+          ranking = get_top_coders(user, coll, 'counts.owned.watchercount', -1, 30, 'Organization')
+          title = 'Top Organizations by Number of Watchers of Owned Repositories'
+          index = 'watchercount'
+        else
+          redirect '/'
+      end
+      liquid :ranking, :locals => {:ranking => ranking, :title => title, :index => index}
     end
 
 

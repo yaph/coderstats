@@ -1,6 +1,6 @@
 $(function(){
   var datatable = $('#ranking_table');
-  $('#ranking_chart').height(datatable.height()+10);
+  $('#ranking_chart').height(datatable.height());
   var chart = initChart(getJSON(datatable));
 });
 
@@ -8,8 +8,8 @@ function getJSON(datatable) {
   var json = {'values': []}
   datatable.find('tbody tr').each(function(){
     var tr = $(this);
-    var label = $($(tr.find('td')[0]).find('a')[0]).attr('title');
-    var value = tr.find('td')[1].innerHTML;
+    var label = $($(tr.find('td')[1]).find('a')[0]).attr('title');
+    var value = tr.find('td')[2].innerHTML;
     json.values.push({'label':label,'values':[parseInt(value)]});
   });
   return json;
@@ -25,7 +25,7 @@ function initChart(json) {
     showLabels:true,
     Label: {
       type: 'HTML',
-      size: 15,
+      size: 13,
       family: 'Arial',
       color: 'black'
     }

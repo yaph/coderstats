@@ -54,6 +54,14 @@ cursor:help;
 .chart {height:250px;}
 .imgsmall {max-width:35px;}
 
+/* ranking previews */
+.ranking_preview footer {
+text-align:center;
+}
+.ranking_preview .table {
+margin-bottom:8px;
+}
+
 /* ranking pages */
 #ranking_chart {
 margin-top:40px;

@@ -9,7 +9,7 @@
 </div></div>
 
 <div class="row" id="indexstats">
-  <div class="span4">
+  <div class="span4 ranking_preview">
     <header>
       <h2 class="label label-info">Top coders by languages in owned repos</h2>
     </header>
@@ -28,9 +28,10 @@
         {% endfor %}
       </tbody>
     </table>
+    <footer><a href="/ranking/coders-by-language"><i class="icon-signal"></i>View Top Ranking by Languages</a></footer>
   </div>
 
-  <div class="span4">
+  <div class="span4 ranking_preview">
     <header>
       <h2 class="label label-info">Top coders by forks of owned repos</h2>
     </header>
@@ -49,9 +50,10 @@
         {% endfor %}
       </tbody>
     </table>
+    <footer><a href="/ranking/coders-by-forks"><i class="icon-signal"></i>View Top Ranking by Forks</a></footer>
   </div>
 
-  <div class="span4">
+  <div class="span4 ranking_preview">
     <header>
       <h2 class="label label-info">Top coders by watchers of owned repos</h2>
     </header>
@@ -70,5 +72,6 @@
         {% endfor %}
       </tbody>
     </table>
+    <footer><a href="/ranking/coders-by-watchers"><i class="icon-signal"></i>View Top Ranking by Watchers</a></footer>
   </div>
 </div>

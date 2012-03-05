@@ -9,14 +9,15 @@
 <div class="span4">
   <table id="ranking_table" class="table table-bordered">
     <thead>
-      <tr><th>Coder</th><th>Count</th><th>User Info</th>
+      <tr><th>#</th><th>Coder</th><th>Count</th><th>User Info</th>
       </tr>
     </thead>
     <tbody>
     {% for user in ranking %}
       <tr>
+        <td>{{forloop.index}}</td>
         <td><a href="/coder/{{user.gh_login|escape}}" title="{{user.gh_login|escape}}"><img class="imgsmall" src="{{user.avatar_url|escape}}" alt="{{user.gh_login|escape}}"></a></td>
-        <td>{{user.counts.owned.langcount}}</td>
+        <td>{{user.counts.owned[index]}}</td>
         <td>{% include 'ranking_coder' %}</td>
       </tr>
     {% endfor %}
