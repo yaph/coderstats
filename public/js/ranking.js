@@ -8,8 +8,8 @@ function getJSON(datatable) {
   var json = {'values': []}
   datatable.find('tbody tr').each(function(){
     var tr = $(this);
-    var label = $($(tr.find('td')[1]).find('a')[0]).attr('title');
-    var value = tr.find('td')[2].innerHTML;
+    var label = $(tr.find('td.ranking_coder a')[0]).attr('title');
+    var value = tr.find('td.ranking_data')[0].innerHTML;
     json.values.push({'label':label,'values':[parseInt(value)]});
   });
   return json;

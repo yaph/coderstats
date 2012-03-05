@@ -16,8 +16,8 @@
     {% for user in ranking %}
       <tr>
         <td>{{forloop.index}}</td>
-        <td><a href="/coder/{{user.gh_login|escape}}" title="{{user.gh_login|escape}}"><img class="imgsmall" src="{{user.avatar_url|escape}}" alt="{{user.gh_login|escape}}"></a></td>
-        <td>{{user.counts.owned[index]}}</td>
+        <td class="ranking_coder"><a href="/coder/{{user.gh_login|escape}}" title="{{user.gh_login|escape}}"><img class="imgsmall" src="{{user.avatar_url|escape}}" alt="{{user.gh_login|escape}}"></a></td>
+        <td class="ranking_data">{{user.counts.owned[index]}}</td>
         <td>{% include 'ranking_coder' %}</td>
       </tr>
     {% endfor %}
