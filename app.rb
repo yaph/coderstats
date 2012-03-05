@@ -16,6 +16,11 @@ module Coderstats
 #    set :ghsettings, settings.db.collection('settings').find_one()
 #    use OmniAuth::Strategies::GitHub, settings.ghsettings['gh_client_id'], settings.ghsettings['gh_secret']
 
+    before do
+      # set liquid template include files path
+      Liquid::Template.file_system = Liquid::LocalFileSystem.new('views/includes')
+    end
+
 
     helpers do
 
@@ -105,6 +110,22 @@ module Coderstats
         raise Sinatra::NotFound, 'No data for user %s' % gh_login
       end
     end
+
+
+    get '/ranking/:type' do
+      user = User.new(settings.db)
+      coll = settings.db.collection('stats_users')
+      liquid :ranking, :locals => {
+        :ranking => get_top_coders(user, coll, 'counts.owned.langcount', -1, 20),
+        :title => 'Top Coders by Number of Languages in Owned Repositories'
+      }
+    end
+
+
+#    get '/badge/:user/:type' do
+#      type = params[:type]
+#      liquid: type, :layout => false
+#    end
 
 
 #    get '/session' do

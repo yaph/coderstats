@@ -15,7 +15,7 @@ db.users.find({}, {gh_login:1, updated_at:1}).sort({updated_at:1}).limit(10)
 ## TODOs
 
 * in app.rb check whether user was created and only then call update_stats when there are no users left updated before 2012-03-05
-* Omit user "type": "Organization" from top coder stats
+* Programming language network based on user langauges and repo count
 * Add favicon to avoid 404s
     * "GET /coder/images/favicon.ico HTTP/1.0" 404
 * Domain as homepage link text on coder page

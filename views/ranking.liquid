@@ -1,0 +1,31 @@
+<div class="row"><div class="span12">
+  <header>
+    <h1>{{title|escape}}</h1>
+  </header>
+</div></div>
+
+<div class="row">
+
+<div class="span4">
+  <table id="ranking_table" class="table table-bordered">
+    <thead>
+      <tr><th>Coder</th><th>Count</th><th>User Info</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for user in ranking %}
+      <tr>
+        <td><a href="/coder/{{user.gh_login|escape}}" title="{{user.gh_login|escape}}"><img class="imgsmall" src="{{user.avatar_url|escape}}" alt="{{user.gh_login|escape}}"></a></td>
+        <td>{{user.counts.owned.langcount}}</td>
+        <td>{% include 'ranking_coder' %}</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<div class="span8">
+<div id="ranking_chart"></div>
+</div>
+
+</div>

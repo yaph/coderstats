@@ -53,3 +53,9 @@ cursor:help;
 .vcard li {list-style:none;}
 .chart {height:250px;}
 .imgsmall {max-width:35px;}
+
+/* ranking pages */
+#ranking_chart {
+margin-top:40px;
+min-height:500px;
+}
