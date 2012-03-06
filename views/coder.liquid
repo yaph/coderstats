@@ -18,7 +18,7 @@
             <li class="location">{{ user.location|escape }}</li>
           {% endif %}
           {% if user.homepage %}
-            <li><a href="{{ user.homepage|escape }}">Homepage</a></li>
+            <li><a href="{{user.homepage|url|escape}}">{{user.homepage|host|escape}}</a></li>
           {% endif %}
         </ul>
       </div>

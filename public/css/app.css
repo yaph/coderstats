@@ -37,14 +37,6 @@ padding-top:1em;
 #indexstats h2 {
 padding-left:1.4em;
 }
-#indexstats .homepage {
-display:block;
-padding-top:.2em;
-}
-#indexstats .icon-signal,
-#indexstats .icon-home {
-padding:.15em;
-}
 #achievements button{
 margin-bottom:.5em;
 cursor:help;
@@ -53,6 +45,16 @@ cursor:help;
 .vcard li {list-style:none;}
 .chart {height:250px;}
 .imgsmall {max-width:35px;}
+
+/* links with icons */
+.homepage {
+display:block;
+padding-top:.2em;
+}
+.icon-signal,
+.icon-home {
+padding:.15em;
+}
 
 /* ranking previews */
 .ranking_preview footer {

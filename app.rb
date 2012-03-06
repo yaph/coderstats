@@ -6,6 +6,7 @@ require './repo.rb'
 require './github.rb'
 require './stats.rb'
 require './achievements.rb'
+require './filters/url.rb'
 
 module Coderstats
   class App < Sinatra::Base
@@ -17,8 +18,9 @@ module Coderstats
 #    use OmniAuth::Strategies::GitHub, settings.ghsettings['gh_client_id'], settings.ghsettings['gh_secret']
 
     before do
-      # set liquid template include files path
+      # set liquid template include files path and extensions
       Liquid::Template.file_system = Liquid::LocalFileSystem.new('views/includes')
+      Liquid::Template.register_filter(URLFilter)
     end
 
 
