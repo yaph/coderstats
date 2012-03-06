@@ -18,7 +18,6 @@ db.users.find({}, {gh_login:1, updated_at:1}).sort({updated_at:1}).limit(10)
 * Programming language network based on user langauges and repo count
 * Add favicon to avoid 404s
     * "GET /coder/images/favicon.ico HTTP/1.0" 404
-* Domain as homepage link text on coder page
 * Make achievements, summary, tables, charts embeddable indicated by plus sign on top right of surrounding boxes, let users set title and light or dark styles.
 * Terms of service based on http://en.wordpress.com/tos/
 * Fix Github oauth login, put auth data into auth collection, see:
@@ -31,7 +30,6 @@ db.users.find({}, {gh_login:1, updated_at:1}).sort({updated_at:1}).limit(10)
     * Allow data update if older than 24 hrs
 * Delete account feature for authenticated users
 * Move controller logic from github.rb to helpers.rb
-* Fix homepage links without protocol by adding http://
 * User RSS feed
 * Don't display empty tabs
 * More details on repos like collaborators http://developer.github.com/v3/repos/collaborators/
