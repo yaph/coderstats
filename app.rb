@@ -151,7 +151,7 @@ module Coderstats
     end
 
 
-    get '/language-graph' do
+    get '/graphs/coders/hyperpolyglots/languages' do
       liquid :languagegraph, :locals => {:languagegraph => true}
     end
 
