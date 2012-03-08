@@ -1,4 +1,5 @@
 require 'logger'
+#require 'yaml'
 require './db.rb'
 require './webservice.rb'
 require './user.rb'
@@ -14,6 +15,9 @@ module Coderstats
 
     set :db, Database.new().connect()
 
+    # TODO read titles and descriptions from yaml file
+#    set :config, YAML.load_file('./config.yml')
+
 #    set :ghsettings, settings.db.collection('settings').find_one()
 #    use OmniAuth::Strategies::GitHub, settings.ghsettings['gh_client_id'], settings.ghsettings['gh_secret']
 
@@ -26,8 +30,7 @@ module Coderstats
 
     helpers do
 
-      def set_error
-        message = 'Not Found'
+      def set_error(message = 'Not Found')
         if env['sinatra.error']
           message = env['sinatra.error'].message
         end
@@ -40,6 +43,23 @@ module Coderstats
         data = collection.find({'gh_type' => type}, :sort => [sort_key, order], :limit => limit)
         data.to_a.each { |r| coders.push(r.merge(user.get_by_id(r['user_id']))) }
         return coders
+      end
+
+
+      def validate(params)
+        regex_string = /^\w[\w-]*$/
+        msg_error = 'Inputs is not valid'
+        ['ghuser', 'path', 'badge_type'].each do |key|
+          if params.has_key?(key)
+            val = params[key].strip
+            params[key] = val
+            if 'ghuser' == key or 'path' == key
+              raise Sinatra::NotFound, msg_error unless val =~ regex_string
+            elsif 'badge_type' == key
+              raise Sinatra::NotFound, msg_error unless 'achievements' == val
+            end
+          end
+        end
       end
 
     end
@@ -73,12 +93,15 @@ module Coderstats
 
 
     get '/coderstats' do
+      # validation done in redirect handler
       redirect '/coder/%s' % params[:ghuser]
     end
 
 
     get '/coder/:ghuser' do
       stats = nil
+      # validate before begin so in case of validation errors appropriate message is shown
+      validate(params)
       begin
         gh_login = params[:ghuser]
 
@@ -116,10 +139,11 @@ module Coderstats
     end
 
 
-    get '/ranking/:type' do
+    get '/ranking/:path' do
+      validate(params)
       user = User.new(settings.db)
       coll = settings.db.collection('stats_users')
-      case params[:type]
+      case params[:path]
         when 'coders-by-language'
           ranking = get_top_coders(user, coll, 'counts.owned.langcount', -1, 30)
           title = 'Top Coders by Number of Languages in Owned Repositories'
@@ -155,10 +179,13 @@ module Coderstats
       liquid :languagegraph, :locals => {:languagegraph => true}
     end
 
-    #    get '/badge/:user/:type' do
-#      type = params[:type]
-#      liquid: type, :layout => false
-#    end
+
+    get '/badge/:user/:badge_type' do
+      validate(params)
+      user = params[:user]
+      type = params[:badge_type]
+      liquid :type, :layout => false
+    end
 
 
 #    get '/session' do
