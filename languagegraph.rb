@@ -6,13 +6,12 @@ PATH = File.expand_path(File.dirname(__FILE__))
 require PATH + '/db.rb'
 
 user_count = 0
-json_file = PATH + '/public/js/languagegraph.json'
+json_file = PATH + '/public/data/languagegraph.json'
 
 # global data structure for the graph data
 # example:
 # languages = {
 #   'Ruby' => {
-#     'count' => 24
 #     'adjacencies' => {
 #       'JavaScript' => { 'count' => 20 },
 #       'Pyhton' => { 'count' => 10 }
@@ -21,19 +20,8 @@ json_file = PATH + '/public/js/languagegraph.json'
 # }
 $languages = {}
 
-# control variable
-$lang_counts = {}
-
-# example call: update_lang('Ruby', ['Ruby', 'JavaScript'])
-def update_lang(name, pair)
-  if $lang_counts.has_key?(name)
-    $lang_counts[name] += 1
-  else
-    $lang_counts[name] = 1
-  end
-
-  pair.delete(name)
-  node_to = pair[0]
+# example call: update_lang('Ruby', 'JavaScript')
+def update_lang(name, node_to)
   if $languages.has_key?(name)
     $languages[name]['count'] += 1
     if $languages[name]['adjacencies'].has_key?(node_to)
@@ -65,9 +53,9 @@ coll.find({
   # initially ignore user repo counts for any given language
   langs = user_langs.keys
   if langs
-    lang_combs = langs.combination(2)
+    lang_combs = langs.permutation(2)
     lang_combs.each do |comb|
-      comb.each { |lang| update_lang(lang, comb) }
+      update_lang(comb[0], comb[1])
     end
   end
 end
@@ -90,10 +78,11 @@ $languages.each do |lang,data|
     })
   end
 
+#  puts lang, adjacencies.length.to_s, adjacencies
   json.push({
     'id' => lang,
-    'name' => lang,
-    'data' => { '$dim' => Math.log(data['count']) ** 2 }, # scale dim logaritmically
+    'name' => lang + ' (' + adjacencies.length.to_s + ')',
+    'data' => { '$dim' => Math.log(adjacencies.length) ** 2 }, # scale dim logaritmically
     'adjacencies' => adjacencies
   })
 end
