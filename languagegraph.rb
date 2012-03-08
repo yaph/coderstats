@@ -52,7 +52,11 @@ end
 db = Database.new().connect()
 coll = db.collection('stats_users')
 # restrict to hyperpoliglot users
-coll.find({ 'counts.owned.langcount' => { '$gt' => 5 }, 'gh_type' => 'User' }).each do |user|
+coll.find({
+    'counts.owned.langcount' => { '$gt' => 5 },
+    'counts.owned.watchercount' => { '$gt' => 50 },
+    'gh_type' => 'User'
+  }).each do |user|
   next unless user['counts']['owned']['languages']
 
   user_count += 1
@@ -87,7 +91,7 @@ $languages.each do |lang,data|
 
   json.push({
     'id' => lang,
-    'name' => lang,
+    'name' => lang + ' (' + adjacencies.size.to_s + ')',
     'data' => { '$dim' => Math.log(data['count']) ** 2 }, # scale dim logaritmically
     'adjacencies' => adjacencies
   })

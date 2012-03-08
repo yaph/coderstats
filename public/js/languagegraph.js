@@ -27,7 +27,7 @@ $(function(){
         //edge. This method is useful for adding individual
         //styles to edges.
         onBeforePlotLine: function(adj){
-            adj.data.$lineWidth = adj.data.weight / 3; //scale $lineWidth down
+            adj.data.$lineWidth = adj.data.weight / 2; //scale $lineWidth down
         },
 
         //Attach event handlers on label creation.
