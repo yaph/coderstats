@@ -1,13 +1,14 @@
 require 'rubygems'
+require 'json'
 
 PATH = File.expand_path(File.dirname(__FILE__))
 
 require PATH + '/db.rb'
 
 user_count = 0
+json_file = PATH + '/public/js/languagegraph.json'
 
-# global data structure for the graph as the basis for creating JSON file
-# see http://thejit.org/static/v20/Jit/Examples/Hypertree/example2.js
+# global data structure for the graph data
 # example:
 # languages = {
 #   'Ruby' => {
@@ -65,7 +66,34 @@ coll.find.each do |user|
   end
 end
 
-puts user_count
-puts $lang_counts['Perl']
-puts $languages['Perl'].to_s
 
+# sort languages by count desc and consider only the 20 most used languages
+# otherwise graph is not useful
+$languages = $languages.sort_by { |lang,data| data['count'] }.reverse
+
+# generate JSON structure from graph data appripriate for 
+# JavaScript InfoVis Toolkit Weighted Graph Animation with 
+# see http://thejit.org/static/v20/Jit/Examples/Hypertree/example2.js
+json = []
+$languages.each do |lang,data|
+  adjacencies = []
+  data['adjacencies'].each do |node_to, node_data|
+    adjacencies.push({
+      'nodeTo' => node_to,
+      'data' => { 'weight' => node_data['count'] }
+    })
+  end
+
+  json.push({
+    'id' => lang,
+    'name' => lang,
+    'data' => { '$dim' => data['count'] / 1.4 }, # scale dim down a bit
+    'adjacencies' => adjacencies
+  })
+end
+
+
+# write JSON file overwrite existing
+file = File.new(json_file, 'w')
+file.puts "var json = " + json.to_json + ";"
+file.close

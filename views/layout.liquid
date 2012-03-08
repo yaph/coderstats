@@ -78,6 +78,13 @@
         <script src="/js/ranking.js"></script>
       {% endif %}
     {% endif %}
+
+    {% if languagegraph %}
+      <script src="/vendor/jit/js/hypertree.min.js"></script>
+      <script src="/js/languagegraph.json"></script>
+      <script src="/js/languagegraph.js"></script>
+    {% endif %}
+
 <script type="text/javascript">
   var _gaq = _gaq || [];
   _gaq.push(['_setAccount', 'UA-5102014-10']);

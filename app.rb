@@ -151,7 +151,11 @@ module Coderstats
     end
 
 
-#    get '/badge/:user/:type' do
+    get '/languagegraph' do
+      liquid :languagegraph, :locals => {:languagegraph => true}
+    end
+
+    #    get '/badge/:user/:type' do
 #      type = params[:type]
 #      liquid: type, :layout => false
 #    end
