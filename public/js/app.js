@@ -1,5 +1,5 @@
 $(function(){
-  $('#ghuser').focus(function(){this.value='';});
+  $('#gh_login').focus(function(){this.value='';});
 });
 
 //    <div class="row">

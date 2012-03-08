@@ -47,16 +47,17 @@ module Coderstats
 
 
       def validate(params)
+        # string of word characters and hyphens that has to start with a word character
         regex_string = /^\w[\w-]*$/
-        msg_error = 'Inputs is not valid'
-        ['ghuser', 'path', 'badge_type'].each do |key|
+        msg_error = 'Input is not valid'
+        ['gh_login', 'path', 'width', 'height', 'badge_type'].each do |key|
           if params.has_key?(key)
             val = params[key].strip
             params[key] = val
-            if 'ghuser' == key or 'path' == key
-              raise Sinatra::NotFound, msg_error unless val =~ regex_string
-            elsif 'badge_type' == key
+            if 'badge_type' == key
               raise Sinatra::NotFound, msg_error unless 'achievements' == val
+            else
+              raise Sinatra::NotFound, msg_error unless val =~ regex_string
             end
           end
         end
@@ -94,16 +95,16 @@ module Coderstats
 
     get '/coderstats' do
       # validation done in redirect handler
-      redirect '/coder/%s' % params[:ghuser]
+      redirect '/coder/%s' % params[:gh_login]
     end
 
 
-    get '/coder/:ghuser' do
+    get '/coder/:gh_login' do
       stats = nil
       # validate before begin so in case of validation errors appropriate message is shown
       validate(params)
       begin
-        gh_login = params[:ghuser]
+        gh_login = params[:gh_login]
 
         # set defaulttab here to avaid logic in template
         defaulttab = 'owned'
@@ -180,11 +181,32 @@ module Coderstats
     end
 
 
-    get '/badge/:user/:badge_type' do
+    get '/badge/:gh_login/achievements' do
       validate(params)
-      user = params[:user]
-      type = params[:badge_type]
-      liquid :type, :layout => false
+      url = request.scheme + '://' + request.host
+      url += ':' + request.port.to_s if 80 != request.port
+      url += '/iframe/' + params[:gh_login] + '/achievements'
+      liquid :achievements_js, :layout => false, :locals => {
+        :url => url,
+        :width => params[:width] || '300px',
+        :height => params[:height] || '250px'
+      }
+    end
+
+
+    get '/iframe/:gh_login/achievements' do
+      validate(params)
+      achievements = nil
+      user = User.new(settings.db).get(params[:gh_login])
+      if user
+        repos = Repo.new(settings.db).get_user_repos(user)
+        stats = Stats.new.get(repos)
+        if stats
+          user['stats'] = stats
+          achievements = Achievements.new.set_user_achievements(user)['achievements']
+        end
+      end
+      liquid :achievements_iframe, :layout => false, :locals => {:user => user}
     end
 
 
@@ -202,7 +224,7 @@ module Coderstats
 #      access_token = request.env['omniauth.auth']['credentials']['token']
 #      uid = request.env['omniauth.auth']['uid'] # do I need this?
 #      gh_user_info = request.env['omniauth.auth']['extra']['raw_info']
-#      gh_login = gh_user_info['login']
+#      gh_login = gh_user_info['gh_login']
 #      see http://www.sinatrarb.com/contrib/cookies.html
 #      liquid :index, :locals => {:title => "Hello #{gh_login}"}
 #    end

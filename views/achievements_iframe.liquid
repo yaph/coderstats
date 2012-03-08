@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Coderstats Badge</title>
+<link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<style>
+h1 {font-size:22px}
+button{
+margin-bottom:.5em;
+cursor:help;
+}
+</style>
+</head>
+<body>
+<header><h1>Coder Achievements</h1></header>
+{% for a in user.achievements %}
+<button class="btn-success btn-large" title="{{a[1]}}">{{a[0]}}</button>
+{% endfor %}
+<p><a href="http://coderstats.geeksta.net/coder/{{user.gh_login|escape}}">See coder stats for {{user.gh_login|escape}}</a></p>
+</body>
+</html>
