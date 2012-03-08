@@ -87,7 +87,7 @@ $languages.each do |lang,data|
   json.push({
     'id' => lang,
     'name' => lang,
-    'data' => { '$dim' => data['count'] / 1.4 }, # scale dim down a bit
+    'data' => { '$dim' => Math.log(data['count']) * 5 }, # scale dim logaritmically
     'adjacencies' => adjacencies
   })
 end
