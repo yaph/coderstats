@@ -10,11 +10,41 @@ class Achievements
   end
 
 
-  def check_lang_min(user, lang, min)
-    if user['stats']['counts']['owned']['languages'] and user['stats']['counts']['owned']['languages'][lang]
-      return user['stats']['counts']['owned']['languages'][lang] >= min
+  def achievement_languages(user)
+    # only consider owned repos for langauge achievements
+    return unless user['stats']['counts']['owned']['languages']
+
+    langs = user['stats']['counts']['owned']['languages']
+
+    langnicks = {
+      'JavaScript' => 'JavaScript Ninja',
+      'Perl' => 'Perl Monk',
+      'Python' => 'Pythonista',
+      'Ruby' => 'Rubyist'
+    }
+
+    mincount = 5
+    maxcount = 0
+    mainlang = ''
+    gh_login = user['gh_login']
+
+    langs.each do |lang, count|
+      if count >= mincount
+        user['achievements'][lang] = '%s owns at least %d repositories (%d) with %s as the main langauge.' %
+          [gh_login, mincount, count, lang]
+
+        if count > maxcount
+          mainlang = lang
+          maxcount = count
+        end
+      end
     end
-    return false
+
+    if mainlang.length > 0 and langnicks.has_key?(mainlang)
+      nick = langnicks[mainlang]
+      user['achievements'][nick] = '%s is the main langauge in %d of %d repositories owned by %s.' %
+        [mainlang, maxcount, user['stats']['counts']['owned']['total'], gh_login]
+    end
   end
 
 
@@ -48,34 +78,6 @@ class Achievements
     total = user['stats']['counts']['owned']['total']
     if total and total >= 200
       user['achievements']['Master of Chaos'] = "At least 200 owned repositories (#{total})."
-    end
-  end
-
-
-  def achievement_jsninja(user)
-    if self.check_lang_min(user, 'JavaScript', 5)
-      user['achievements']['JavaScript Ninja'] = 'At least 5 owned repositories with JavaScript as the main language.'
-    end
-  end
-
-
-  def achievement_perlmonk(user)
-    if self.check_lang_min(user, 'Perl', 5)
-      user['achievements']['Perl Monk'] = 'At least 5 owned repositories with Perl as the main language.'
-    end
-  end
-
-
-  def achievement_pythonista(user)
-    if self.check_lang_min(user, 'Python', 5)
-      user['achievements']['Pythonista'] = 'At least 5 owned repositories with Python as the main language.'
-    end
-  end
-
-
-  def achievement_rubyist(user)
-    if self.check_lang_min(user, 'Ruby', 5)
-      user['achievements']['Rubyist'] = 'At least 5 owned repositories with Ruby as the main language.'
     end
   end
 
