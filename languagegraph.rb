@@ -52,7 +52,7 @@ end
 db = Database.new().connect()
 coll = db.collection('stats_users')
 # restrict to hyperpoliglot users
-coll.find({ 'counts.owned.langcount' => { '$gt' => 5 } }).each do |user|
+coll.find({ 'counts.owned.langcount' => { '$gt' => 5 }, 'gh_type' => 'User' }).each do |user|
   next unless user['counts']['owned']['languages']
 
   user_count += 1
