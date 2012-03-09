@@ -80,13 +80,25 @@ class Github < WebService
   def update_stats(user)
     return false unless user['stats']
 
+    achievement_count = user['achievements'].count()
+
     doc = {
       'user_id' => user['_id'],
       'gh_type' => user['gh_type'],
       'counts' => user['stats']['counts'],
-      'achievement_count' => user['achievements'].count()
+      'achievement_count' => achievement_count
     }
     @db.collection('stats_users').update({'user_id' => user['_id']}, doc, {:upsert => true})
+
+    # store achievements in dedicated collection
+    if achievement_count > 0
+      doc_a = {
+        'user_id' => user['_id'],
+        'gh_login' => user['gh_login'], # allows querying collection directly for badge display
+        'achievements' => user['achievements'] # make all achievements accessible via one key
+      }
+      @db.collection('achievements').update({'user_id' => user['_id']}, doc_a, {:upsert => true})
+    end
   end
 
 end

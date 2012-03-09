@@ -14,7 +14,7 @@ db.users.find({}, {gh_login:1, updated_at:1}).sort({updated_at:1}).limit(10)
 
 ## TODOs
 
-* Store achievements hash in user or achievements collection
+* include all necessary CSS in iframe template
 * Create dedicate Sinatra::Base app for badges and load only what is needed
 * Move controller logic from github.rb to helpers.rb
 * languagegraph
