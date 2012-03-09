@@ -50,7 +50,7 @@ module Coderstats
         # string of word characters and hyphens that has to start with a word character
         regex_string = /^\w[\w-]*$/
         msg_error = 'Input is not valid'
-        ['gh_login', 'path', 'width', 'height', 'badge_type'].each do |key|
+        ['gh_login', 'path', 'width', 'height', 'badge_title', 'badge_type'].each do |key|
           if params.has_key?(key)
             val = params[key].strip
             params[key] = val
@@ -186,6 +186,7 @@ module Coderstats
       url = request.scheme + '://' + request.host
       url += ':' + request.port.to_s if 80 != request.port
       url += '/iframe/' + params[:gh_login] + '/achievements'
+      url += '?badge_title=' + params[:badge_title] if params[:badge_title]
       liquid :achievements_js, :layout => false, :locals => {
         :url => url,
         :width => params[:width] || '300px',
@@ -206,7 +207,10 @@ module Coderstats
           achievements = Achievements.new.set_user_achievements(user)['achievements']
         end
       end
-      liquid :achievements_iframe, :layout => false, :locals => {:user => user}
+      liquid :achievements_iframe, :layout => false, :locals => {
+        :user => user,
+        :badge_title => params[:badge_title] || 'show'
+      }
     end
 
 

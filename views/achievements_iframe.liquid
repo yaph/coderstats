@@ -11,7 +11,7 @@ cursor:help;
 </style>
 </head>
 <body>
-<header><h1>Coder Achievements</h1></header>
+{% if 'show' == badge_title %}<header><h1>Coder Achievements</h1></header>{% endif %}
 {% for a in user.achievements %}
 <button class="btn-success btn-large" title="{{a[1]}}">{{a[0]}}</button>
 {% endfor %}
