@@ -14,6 +14,9 @@ db.users.find({}, {gh_login:1, updated_at:1}).sort({updated_at:1}).limit(10)
 
 ## TODOs
 
+* Store achievements hash in user or achievements collection
+* Create dedicate Sinatra::Base app for badges and load only what is needed
+* Move controller logic from github.rb to helpers.rb
 * languagegraph
     * add title and description
     * link from nav menu
@@ -33,7 +36,6 @@ db.users.find({}, {gh_login:1, updated_at:1}).sort({updated_at:1}).limit(10)
     * Fetch data from coderwall provided user has specified the coderwall name into coderwall collection
     * Allow data update if older than 24 hrs
 * Delete account feature for authenticated users
-* Move controller logic from github.rb to helpers.rb
 * User RSS feed
 * Don't display empty tabs
 * More details on repos like collaborators http://developer.github.com/v3/repos/collaborators/

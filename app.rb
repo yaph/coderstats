@@ -197,6 +197,7 @@ module Coderstats
 
     get '/iframe/:gh_login/achievements' do
       validate(params)
+      # FIXME cache achievements
       achievements = nil
       user = User.new(settings.db).get(params[:gh_login])
       if user
