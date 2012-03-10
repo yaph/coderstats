@@ -40,7 +40,7 @@ class Achievements
       end
     end
 
-    if mainlang.length > 0 and langnicks.has_key?(mainlang) and maxcount > mincount
+    if mainlang.length > 0 and langnicks.has_key?(mainlang) and maxcount >= mincount
       nick = langnicks[mainlang]
       user['stats']['counts']['owned']['mainlang'] = mainlang
       user['achievements'][nick] = '%s is the main langauge in %d of %d repositories owned by %s.' %
@@ -86,7 +86,7 @@ class Achievements
   # Achievements that don't depend on stats
   def others_bdfl(user)
     case user['gh_login']
-      when 'dhh', 'jeresig', 'rlerdorf', 'TimToady', 'torvalds'
+      when 'dhh', 'jeresig', 'matz', 'rlerdorf', 'TimToady', 'torvalds'
         user['achievements']['BDFL'] = 'Benevolent Dictator for Life'
     end
   end
