@@ -15,6 +15,6 @@ cursor:help;
 {% for a in user.achievements %}
 <button class="btn-success btn-large" title="{{a[1]}}">{{a[0]}}</button>
 {% endfor %}
-<p><a href="http://coderstats.geeksta.net/coder/{{user.gh_login|escape}}">See coder stats for {{user.gh_login|escape}}</a></p>
+<p><a target="_top" href="http://coderstats.geeksta.net/coder/{{user.gh_login|escape}}">See coder stats for {{user.gh_login|escape}}</a></p>
 </body>
 </html>
