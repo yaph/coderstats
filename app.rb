@@ -197,17 +197,7 @@ module Coderstats
 
     get '/iframe/:gh_login/achievements' do
       validate(params)
-      # FIXME cache achievements
-      achievements = nil
-      user = User.new(settings.db).get(params[:gh_login])
-      if user
-        repos = Repo.new(settings.db).get_user_repos(user)
-        stats = Stats.new.get(repos)
-        if stats
-          user['stats'] = stats
-          achievements = Achievements.new.set_user_achievements(user)['achievements']
-        end
-      end
+      user = settings.db.collection('achievements').find_one({ 'gh_login' => params[:gh_login] })
       liquid :achievements_iframe, :layout => false, :locals => {
         :user => user,
         :badge_title => params[:badge_title] || 'show'

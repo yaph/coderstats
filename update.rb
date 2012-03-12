@@ -10,8 +10,9 @@ require PATH + '/github.rb'
 require PATH + '/stats.rb'
 require PATH + '/achievements.rb'
 
-record_limit = 10
-lifetime = 604800 # 1 week in seconds
+record_limit = 20
+#lifetime = 604800 # 1 week in seconds
+lifetime = 172800 # 2 days in seconds
 
 update_threshold = Time.now.utc - lifetime
 
