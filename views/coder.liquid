@@ -47,10 +47,12 @@
       <div class="span3" id="achievements">
         <header><h2>Achievements</h2></header>
         {% for a in user.achievements %}
-          <button class="btn-success btn-large achievements" title="{{a[1]}}">{{a[0]}}</button>
+          <button class="btn-success btn-large achievement" title="{{a[1]}}">{{a[0]}}</button>
         {% endfor %}
         <button id="button_achievements" class="btn"><i class="icon-share"></i>Get Achievements Badge</button>
-        <textarea id="textarea_achievements" class="input-xlarge" id="textarea" rows="5">&lt;script src=&quot;{{achievements_embed_url|escape}}?width=300px&amp;amp;height=250px&amp;amp;badge_title=show&quot;&gt;&lt;/script&gt;</textarea>
+        <div id="embed_achievements">
+          <textarea class="input-xlarge" id="textarea" rows="4">&lt;script src=&quot;{{achievements_embed_url|escape}}?width=300px&amp;amp;height=250px&amp;amp;badge_title=show&quot;&gt;&lt;/script&gt;</textarea><p class="alert alert-info">Copy the HTML text above and embed it into your Web page.</p>
+        </div>
       </div>
     </div>
     {% endif %}

@@ -12,10 +12,10 @@ $(function(){
     });
   });
   // achievements badge
-  var ta = $('#textarea_achievements');
-  ta.hide();
+  var ea = $('#embed_achievements');
+  ea.hide();
   $('#button_achievements').click(function(){
-    ta.toggle();
+    ea.toggle();
   });
 });
 
