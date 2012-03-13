@@ -58,6 +58,7 @@ padding:.15em;
 #button_achievements {
 margin:.5em 0;
 cursor:pointer;
+display:block;
 }
 
 /* ranking previews */
