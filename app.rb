@@ -63,6 +63,14 @@ module Coderstats
         end
       end
 
+      def get_embed_url(path, badge_title = nil)
+        url = request.scheme + '://' + request.host
+        url += ':' + request.port.to_s if 80 != request.port
+        url += path
+        url += '?badge_title=' + badge_title if badge_title
+        return url
+      end
+
     end
 
 
@@ -128,6 +136,7 @@ module Coderstats
         gh.update_stats(user)
 
         liquid :coder, :locals => {
+          :achievements_embed_url => get_embed_url('/badge/' + gh_login + '/achievements'),
           :user => user,
           :defaulttab => defaulttab,
           :title => 'Code statistics for Github user %s' % gh_login
@@ -183,12 +192,9 @@ module Coderstats
 
     get '/badge/:gh_login/achievements' do
       validate(params)
-      url = request.scheme + '://' + request.host
-      url += ':' + request.port.to_s if 80 != request.port
-      url += '/iframe/' + params[:gh_login] + '/achievements'
-      url += '?badge_title=' + params[:badge_title] if params[:badge_title]
+      content_type 'application/javascript'
       liquid :achievements_js, :layout => false, :locals => {
-        :url => url,
+        :url => get_embed_url('/iframe/' + params[:gh_login] + '/achievements', params[:badge_title]),
         :width => params[:width] || '300px',
         :height => params[:height] || '250px'
       }

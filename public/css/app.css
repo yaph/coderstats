@@ -37,7 +37,7 @@ padding-top:1em;
 #indexstats h2 {
 padding-left:1.4em;
 }
-#achievements button{
+#achievements .achievements{
 margin-bottom:.5em;
 cursor:help;
 }
@@ -54,6 +54,10 @@ padding-top:.2em;
 .icon-signal,
 .icon-home {
 padding:.15em;
+}
+#button_achievements {
+margin:.5em 0;
+cursor:pointer;
 }
 
 /* ranking previews */

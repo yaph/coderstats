@@ -11,6 +11,12 @@ $(function(){
       chart.loadJSON(json);
     });
   });
+  // achievements badge
+  var ta = $('#textarea_achievements');
+  ta.hide();
+  $('#button_achievements').click(function(){
+    ta.toggle();
+  });
 });
 
 function getJSON(activeid) {
