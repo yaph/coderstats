@@ -57,7 +57,7 @@ class Github < WebService
     raise "no user data: %s" % gh_login if ghuser.nil?
 
     # check again if user exists to avoid duplicate entries as a consequence of
-    # different character chase, issue #1
+    # different character case, issue #1
     dbuser = user.get(ghuser['login'])
     return dbuser if dbuser
 
