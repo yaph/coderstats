@@ -56,6 +56,11 @@ class Github < WebService
     ghuser = self.get_user(gh_login)
     raise "no user data: %s" % gh_login if ghuser.nil?
 
+    # check again if user exists to avoid duplicate entries as a consequence of
+    # different character chase, issue #1
+    dbuser = user.get(ghuser['login'])
+    return dbuser if dbuser
+
     # create user in users collection
     @is_new_user = true
     return user.create(ghuser)
