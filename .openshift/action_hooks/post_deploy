@@ -1,2 +1,2 @@
 #!/bin/bash
-ruby ${OPENSHIFT_REPO_DIR}repo/languagegraph.rb
+ruby ${OPENSHIFT_REPO_DIR}languagegraph.rb
