@@ -22,7 +22,7 @@ user = User.new(db)
 repo = Repo.new(db)
 coll_user = user.get_coll
 
-coll_user.find({'updated_at' => {'$lt' => update_threshold}, 'notfound' => {'$exists' => false} }, sort => 'updated_at').limit(record_limit).each do |u|
+coll_user.find({'updated_at' => {'$lt' => update_threshold}, 'notfound' => {'$exists' => false} }, :sort => 'updated_at').limit(record_limit).each do |u|
   puts 'Fetch Github info for user %s' % u['gh_login']
   gh_user = gh.get_user(u['gh_login'])
   if gh_user.nil?
