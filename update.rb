@@ -23,8 +23,11 @@ repo = Repo.new(db)
 coll_user = user.get_coll
 
 coll_user.find({ 'updated_at' => {'$lt' => update_threshold} }, :sort => 'updated_at').limit(record_limit).each do |u|
-  puts 'Updating user %s' % u['gh_login']
+  puts 'Fetch Github info for user %s' % u['gh_login']
   gh_user = gh.get_user(u['gh_login'])
+  next if gh_user.nil?
+
+  puts 'Updating user %s' % u['gh_login']
   user.update(u, gh_user)
   gh_repos = gh.get_user_repos(u)
   if !gh_repos.empty?
