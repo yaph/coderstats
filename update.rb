@@ -28,6 +28,7 @@ coll_user.find({'updated_at' => {'$lt' => update_threshold}, 'notfound' => {'$ex
   if gh_user.nil?
     # if Github returned no user data set user to notfound so update process is not blocked
     user.notfound(u)
+    next
   end
 
   puts 'Updating user %s' % u['gh_login']
