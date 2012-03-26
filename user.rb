@@ -87,4 +87,11 @@ class User
     return user
   end
 
+
+  def notfound(user)
+    user['updated_at'] = Time.now.utc
+    user['notfound'] = true
+    @coll.update({ '_id' => user['_id'] }, user)
+  end
+
 end
