@@ -40,8 +40,12 @@ class Stats
 
   def set_repo_stat(index, repo)
     @counts[index]['total'] += 1
-    @counts[index]['forkcount'] += repo['forks']
-    @counts[index]['watchercount'] += repo['watchers']
+    if repo['forks']
+      @counts[index]['forkcount'] += repo['forks']
+    end
+    if repo['watchers']
+      @counts[index]['watchercount'] += repo['watchers']
+    end
     lang = repo['language']
     if @counts[index]['languages'].has_key?(lang)
       @counts[index]['languages'][lang] += 1
