@@ -11,7 +11,8 @@ require './filters/url.rb'
 
 module Coderstats
   class App < Sinatra::Base
-    enable :sessions
+    enable :sessions, :logging
+    disable :raise_errors, :show_exceptions
 
     set :db, Database.new().connect()
 
