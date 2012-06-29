@@ -46,4 +46,8 @@ class Repo < Database
     return @coll.find({'user_id' => user['_id']}).to_a
   end
 
+  def delete_user_repo(user, repo)
+    return @coll.remove({'user_id' => user['_id'], 'name' => repo['name']})
+  end
+
 end

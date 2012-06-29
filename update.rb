@@ -24,6 +24,7 @@ coll_user = user.get_coll
 
 coll_user.find({'updated_at' => {'$lt' => update_threshold}, 'notfound' => {'$exists' => false} }, :sort => 'updated_at').limit(record_limit).each do |u|
   puts 'Fetch Github info for user %s' % u['gh_login']
+
   gh_user = gh.get_user(u['gh_login'])
   if gh_user.nil?
     # if Github returned no user data set user to notfound so update process is not blocked
@@ -35,7 +36,19 @@ coll_user.find({'updated_at' => {'$lt' => update_threshold}, 'notfound' => {'$ex
   user.update(u, gh_user)
   gh_repos = gh.get_user_repos(u)
   if !gh_repos.empty?
-    gh_repos.each { |r| repo.update_user_repo(u, r) }
+    user_repo_names = {}
+    gh_repos.each do |r|
+      repo.update_user_repo(u, r)
+      user_repo_names[r['name']] = 1
+    end
+
+    # remove repos deleted on Github
+    repo.get_user_repos(u) do |r|
+      if not user_repo_names.has_key?(r['name'])
+        puts repo.delete_user_repo(u, r)
+      end
+    end
+
     u['stats'] = Stats.new.get(gh_repos)
     u = Achievements.new.set_user_achievements(u)
     gh.update_stats(u)
