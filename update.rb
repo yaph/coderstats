@@ -43,7 +43,7 @@ coll_user.find({'updated_at' => {'$lt' => update_threshold}, 'notfound' => {'$ex
     end
 
     # remove repos deleted on Github
-    repo.get_user_repos(u) do |r|
+    repo.get_user_repos(u).each do |r|
       if not user_repo_names.has_key?(r['name'])
         puts 'Removed repo %s' % r['name'] if repo.delete_user_repo(u, r)
       end
