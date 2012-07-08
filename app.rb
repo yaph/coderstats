@@ -130,11 +130,7 @@ module Coderstats
         end
         user['stats'] = stats
 
-        # set achievements before updating stats so achievement_count is set
         user = Achievements.new.set_user_achievements(user)
-
-        # TODO after first update cycle after this change, only update stats when a new user was created
-        gh.update_stats(user)
 
         liquid :coder, :locals => {
           :achievements_embed_url => get_embed_url('/badge/' + gh_login + '/achievements'),

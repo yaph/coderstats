@@ -22,6 +22,7 @@ user = User.new(db)
 repo = Repo.new(db)
 coll_user = user.get_coll
 
+#coll_user.find({'gh_login' => 'yaph'}).each do |u|
 coll_user.find({'updated_at' => {'$lt' => update_threshold}, 'notfound' => {'$exists' => false} }, :sort => 'updated_at').limit(record_limit).each do |u|
   puts 'Fetch Github info for user %s' % u['gh_login']
 
@@ -38,6 +39,7 @@ coll_user.find({'updated_at' => {'$lt' => update_threshold}, 'notfound' => {'$ex
   if !gh_repos.empty?
     user_repo_names = {}
     gh_repos.each do |r|
+      puts 'Updating repo %s' % r['name']
       repo.update_user_repo(u, r)
       user_repo_names[r['name']] = 1
     end
