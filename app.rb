@@ -88,10 +88,15 @@ module Coderstats
     get '/' do
       user = User.new(settings.db)
       coll = settings.db.collection('stats_users')
+      counts = {
+        'users' => settings.db.collection('users').count,
+        'repos' => settings.db.collection('repos').count
+      }
       liquid :index, :locals => {
         :users_by_ownedlangs => get_top_coders(user, coll, 'counts.owned.langcount'),
         :users_by_ownedforks => get_top_coders(user, coll, 'counts.owned.forkcount'),
         :users_by_ownedwatchers => get_top_coders(user, coll, 'counts.owned.watchercount'),
+        :counts => counts,
         :title => 'Coderstats - Get statistics for your Github code'
       }
     end
