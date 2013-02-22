@@ -12,7 +12,10 @@ db.repos.group({ key: {"user_id": true}, initial: {sum: 0}, reduce: function(doc
 
 db.users.find({}, {gh_login:1, updated_at:1}).sort({updated_at:1}).limit(10)
 
-## TODOs
+## TODOs/Ideas
+* Use D3 for graphs
+* Compare Coders
+* Submit to G+ communities
 * Create dedicated Sinatra::Base app for badges and load only what is needed
 * Move controller logic from github.rb to helpers.rb
 * languagegraph
@@ -40,7 +43,7 @@ db.users.find({}, {gh_login:1, updated_at:1}).sort({updated_at:1}).limit(10)
 
 ## Weight calculation for repo
 
-Think about implications, e.g. user confusion, when weighting repos before 
+Think about implications, e.g. user confusion, when weighting repos before
 implementing this. Weighting has to be explained and the explanation must be easy
 to find.
 
